@@ -61,7 +61,17 @@ function initMenu() {
       document.querySelectorAll('.icon-btn').forEach(b => b.classList.remove('active'));
       target.classList.add('active');
 
-      if (target.dataset.route) console.log(`Rota acessada: ${target.dataset.route}`);
+      const mainView = document.getElementById('app-view');
+
+      // Carregamento dinâmico da rota de Língua Portuguesa
+      if (target.dataset.route === 'theory-pt') {
+        if (typeof theoryPtContent !== 'undefined') {
+          mainView.innerHTML = theoryPtContent;
+        }
+      } else if (target.dataset.route) {
+        mainView.innerHTML = `<h2>Conteúdo da rota: ${target.dataset.route}</h2><p>Página em desenvolvimento.</p>`;
+      }
+
       if (target.dataset.action) console.log(`Ação acionada: ${target.dataset.action}`);
       if (target.dataset.export) console.log(`Exportar arquivo: ${target.dataset.export}`);
       if (target.dataset.import) console.log(`Importar arquivo: ${target.dataset.import}`);

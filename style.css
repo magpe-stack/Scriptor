@@ -1,59 +1,227 @@
-/* Scriptor PWA Stylesheet - Strict Color Palette: Black, White, #257d0d */
 :root {
---bg-primary: #ffffff;
---bg-secondary: #f4f4f5;
---text-primary: #000000;
---text-secondary: #52525b;
---border-color: #e4e4e7;
---brand-color: #257d0d;
+  --bg-color: #0d0d0d;
+  --surface-color: #1a1a1a;
+  --surface-hover: #262626;
+  --border-color: #333333;
+  --text-color: #ffffff;
+  --text-secondary: #a3a3a3;
+  --primary-color: #257d0d;
+  --primary-hover: #1e630a;
+  --sidebar-width: 60px;
+  --header-height: 50px;
 }
 
-.dark {
---bg-primary: #000000;
---bg-secondary: #0d0d0d;
---text-primary: #ffffff;
---text-secondary: #a1a1aa;
---border-color: #27272a;
---brand-color: #257d0d;
+[data-theme="light"] {
+  --bg-color: #f4f4f5;
+  --surface-color: #ffffff;
+  --surface-hover: #e4e4e7;
+  --border-color: #d4d4d8;
+  --text-color: #000000;
+  --text-secondary: #52525b;
+  --primary-color: #257d0d;
+  --primary-hover: #1e630a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
 }
 
 body {
-background-color: var(--bg-primary);
-color: var(--text-primary);
-font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-margin: 0;
-padding: 0;
-overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-width: 6px;
-height: 6px;
-}
-::-webkit-scrollbar-track {
-background: transparent;
-}
-::-webkit-scrollbar-thumb {
-background: #257d0d;
-border-radius: 3px;
+/* Topo / Header */
+.app-header {
+  height: var(--header-height);
+  background-color: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 20;
 }
 
-/* Custom Tooltip Styling */
-[title] {
-position: relative;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-/* Submenu Flyout Transitions */
+.brand-logo {
+  width: 28px;
+  height: 28px;
+}
+
+.brand-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text-color);
+}
+
+/* Layout Principal */
+.app-container {
+  display: flex;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Barra Lateral */
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--surface-color);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  z-index: 10;
+  position: relative;
+}
+
+.nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  align-items: center;
+}
+
+.nav-divider {
+  height: 1px;
+  width: 32px;
+  background-color: var(--border-color);
+  margin: 4px 0;
+}
+
+/* Botões do Menu */
+.nav-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+  background-color: var(--surface-hover);
+  color: var(--text-color);
+}
+
+.nav-btn.active {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Submenu Nível 2 (Flyout) */
 .flyout-menu {
-transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease-in-out;
-transform: translateX(-100%);
-opacity: 0;
-pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: var(--sidebar-width);
+  height: 100%;
+  background-color: var(--surface-color);
+  border-right: 1px solid var(--border-color);
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transform: translateX(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+  z-index: 5;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
 }
 
-.flyout-menu.active {
-transform: translateX(0);
-opacity: 1;
-pointer-events: auto;
+.flyout-menu.open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.flyout-header {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding: 4px 8px;
+  margin-bottom: 4px;
+}
+
+.flyout-btn {
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.flyout-btn:hover {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border-color: var(--primary-color);
+}
+
+.badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Conteúdo Principal */
+.main-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  background-color: var(--bg-color);
+}
+
+.welcome-card {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 600px;
+}
+
+.welcome-card h1 {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  color: var(--primary-color);
+}
+
+.welcome-card p {
+  color: var(--text-secondary);
+  line-height: 1.5;
 }

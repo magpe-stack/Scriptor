@@ -1,161 +1,98 @@
+/**
+ * Scriptor - Aplicação Principal
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Estado da Aplicação
-  const state = {
-    theme: localStorage.getItem('scriptor_theme') || 'dark',
-    activeView: 'dashboard',
-    activeFlyout: null
-  };
+  initTheme();
+  initMenu();
+  initPWA();
+});
 
-  // Elementos do DOM
-  const htmlEl = document.documentElement;
-  const btnThemeToggle = document.getElementById('btn-theme-toggle');
-  const iconDark = btnThemeToggle.querySelector('.theme-icon-dark');
-  const iconLight = btnThemeToggle.querySelector('.theme-icon-light');
+/* ==========================================================================
+   1. Gerenciamento do Modo Claro/Escuro
+   ========================================================================== */
+function initTheme() {
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  const savedTheme = localStorage.getItem('scriptor-theme') || 'dark';
+  
+  document.documentElement.setAttribute('data-theme', savedTheme);
 
-  const btnExport = document.getElementById('btn-export');
-  const btnImport = document.getElementById('btn-import');
-  const flyoutExport = document.getElementById('flyout-export');
-  const flyoutImport = document.getElementById('flyout-import');
-
-  const viewTitle = document.getElementById('view-title');
-  const viewDesc = document.getElementById('view-desc');
-  const fileInputJson = document.getElementById('file-input-json');
-
-  // Mapeamento de Títulos das Seções
-  const viewDetails = {
-    'btn-dashboard': { title: 'Painel', desc: 'Visão geral do seu projeto literário.' },
-    'btn-fase1': { title: 'Fase 1 - Fundação', desc: 'Definição do conceito, premissa e tema central.' },
-    'btn-fase2': { title: 'Fase 2 - Psique do Protagonista', desc: 'Mapeamento psicológico, motivações e arcos dos personagens.' },
-    'btn-fase3': { title: 'Fase 3 - Enredo Causal e Terceiro Trilho', desc: 'Construção do enredo de causa e efeito e subplot emocional.' },
-    'btn-fase4': { title: 'Fase 4 - Cartões de Cena', desc: 'Organização sequencial de cenas e eventos chave.' },
-    'btn-fase5': { title: 'Fase 5 - Roteiro (Roadmap)', desc: 'Estruturação completa da narrativa.' },
-    'btn-editor': { title: 'Editor de Rascunho', desc: 'Espaço dedicado para escrita livre e rascunho.' }
-  };
-
-  // 1. Inicializar Tema
-  function applyTheme(theme) {
-    state.theme = theme;
-    htmlEl.setAttribute('data-theme', theme);
-    localStorage.setItem('scriptor_theme', theme);
-    if (theme === 'light') {
-      iconDark.classList.add('hidden');
-      iconLight.classList.remove('hidden');
-    } else {
-      iconDark.classList.remove('hidden');
-      iconLight.classList.add('hidden');
-    }
-  }
-  applyTheme(state.theme);
-
-  btnThemeToggle.addEventListener('click', () => {
-    applyTheme(state.theme === 'dark' ? 'light' : 'dark');
+  themeToggleBtn.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('scriptor-theme', newTheme);
   });
+}
 
-  // 2. Controle de Submenus (Flyouts - Nível 2)
-  function toggleFlyout(flyoutName) {
-    if (state.activeFlyout === flyoutName) {
-      closeFlyouts();
-    } else {
-      closeFlyouts();
-      state.activeFlyout = flyoutName;
-      if (flyoutName === 'export') flyoutExport.classList.add('open');
-      if (flyoutName === 'import') flyoutImport.classList.add('open');
-    }
-  }
+/* ==========================================================================
+   2. Navegação e Comportamento dos Submenus
+   ========================================================================== */
+function initMenu() {
+  const hasSubmenuItems = document.querySelectorAll('.menu-item.has-submenu');
 
-  function closeFlyouts() {
-    flyoutExport.classList.remove('open');
-    flyoutImport.classList.remove('open');
-    state.activeFlyout = null;
-  }
-
-  btnExport.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleFlyout('export');
-  });
-
-  btnImport.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleFlyout('import');
-  });
-
-  // Fechar submenus ao clicar fora da barra de menu
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.sidebar')) {
-      closeFlyouts();
-    }
-  });
-
-  // 3. Navegação Nível 1
-  const mainNavBtns = [
-    'btn-dashboard', 'btn-fase1', 'btn-fase2', 
-    'btn-fase3', 'btn-fase4', 'btn-fase5', 'btn-editor'
-  ];
-
-  mainNavBtns.forEach(id => {
-    const btn = document.getElementById(id);
-    if (!btn) return;
-    btn.addEventListener('click', () => {
-      mainNavBtns.forEach(bId => {
-        const b = document.getElementById(bId);
-        if (b) b.classList.remove('active');
+  // Alternar visibilidade do submenu de Nível 2
+  hasSubmenuItems.forEach(item => {
+    const toggleBtn = item.querySelector('.toggle-submenu');
+    
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      
+      // Fecha outros submenus abertos
+      hasSubmenuItems.forEach(otherItem => {
+        if (otherItem !== item) {
+          otherItem.classList.remove('open');
+        }
       });
-      btn.classList.add('active');
-      closeFlyouts();
 
-      const details = viewDetails[id] || { title: 'Seção', desc: '' };
-      viewTitle.textContent = details.title;
-      viewDesc.textContent = details.desc;
+      item.classList.toggle('open');
     });
   });
 
-  // Novo Projeto
-  document.getElementById('btn-new').addEventListener('click', () => {
-    closeFlyouts();
-    if (confirm('Deseja iniciar um novo projeto? Dados não salvos serão perdidos.')) {
-      alert('Novo projeto iniciado.');
+  // Fechar submenus ao clicar fora da sidebar
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.sidebar')) {
+      hasSubmenuItems.forEach(item => item.classList.remove('open'));
     }
   });
 
-  // 4. Ações do Submenu Nível 2 (Exportar / Carregar)
-  document.getElementById('btn-exp-json').addEventListener('click', () => {
-    closeFlyouts();
-    alert('Exportando em formato JSON...');
-  });
+  // Handler universal para cliques nos botões de ação e rotas
+  document.querySelectorAll('.icon-btn[data-route], .icon-btn[data-action], .icon-btn[data-export], .icon-btn[data-import]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const target = e.currentTarget;
+      
+      // Remove classe 'active' de todos os botões de nível 1
+      document.querySelectorAll('.main-menu > .menu-item > .icon-btn').forEach(b => b.classList.remove('active'));
+      
+      // Adiciona 'active' ao botão clicado ou ao pai se for submenu
+      const parentMenuItem = target.closest('.menu-item');
+      if (parentMenuItem) {
+        const primaryBtn = parentMenuItem.querySelector('.icon-btn');
+        if (primaryBtn) primaryBtn.classList.add('active');
+      }
 
-  document.getElementById('btn-exp-md').addEventListener('click', () => {
-    closeFlyouts();
-    alert('Exportando em formato Markdown (.md)...');
-  });
+      // Fecha submenus após seleção
+      hasSubmenuItems.forEach(item => item.classList.remove('open'));
 
-  document.getElementById('btn-exp-txt').addEventListener('click', () => {
-    closeFlyouts();
-    alert('Exportando em formato Texto (.txt)...');
+      // Log temporário de teste
+      if (target.dataset.route) console.log(`Navegar para rota: ${target.dataset.route}`);
+      if (target.dataset.action) console.log(`Executar ação: ${target.dataset.action}`);
+      if (target.dataset.export) console.log(`Exportar formato: ${target.dataset.export}`);
+      if (target.dataset.import) console.log(`Importar formato: ${target.dataset.import}`);
+    });
   });
+}
 
-  document.getElementById('btn-exp-docx').addEventListener('click', () => {
-    closeFlyouts();
-    alert('Exportando em formato Word (.docx)...');
-  });
-
-  document.getElementById('btn-imp-json').addEventListener('click', () => {
-    closeFlyouts();
-    fileInputJson.click();
-  });
-
-  fileInputJson.addEventListener('change', (e) => {
-    if (e.target.files.length > 0) {
-      alert(`Arquivo "${e.target.files[0].name}" carregado com sucesso.`);
-      e.target.value = '';
-    }
-  });
-
-  // 5. Registrar Service Worker para PWA
+/* ==========================================================================
+   3. Registro do Service Worker (PWA & PWABuilder .exe)
+   ========================================================================== */
+function initPWA() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('sw.js')
-        .then(reg => console.log('SW registrado com sucesso:', reg.scope))
-        .catch(err => console.log('Falha ao registrar SW:', err));
+        .then(reg => console.log('Service Worker registrado com sucesso:', reg.scope))
+        .catch(err => console.error('Falha ao registrar Service Worker:', err));
     });
   }
-});
+}

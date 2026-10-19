@@ -1,45 +1,45 @@
+/* ==========================================================================
+   Variáveis & Paleta de Cores (Verde #257d0d, Preto e Branco)
+   ========================================================================== */
 :root {
-  --bg-color: #0d0d0d;
-  --surface-color: #1a1a1a;
-  --surface-hover: #262626;
-  --border-color: #333333;
-  --text-color: #ffffff;
-  --text-secondary: #a3a3a3;
   --primary-color: #257d0d;
-  --primary-hover: #1e630a;
-  --sidebar-width: 60px;
+  --bg-color: #121212;
+  --surface-color: #1a1a1a;
+  --surface-hover: #2a2a2a;
+  --text-color: #ffffff;
+  --border-color: #333333;
   --header-height: 50px;
+  --sidebar-width: 60px;
 }
 
 [data-theme="light"] {
-  --bg-color: #f4f4f5;
-  --surface-color: #ffffff;
-  --surface-hover: #e4e4e7;
-  --border-color: #d4d4d8;
+  --bg-color: #ffffff;
+  --surface-color: #f4f4f4;
+  --surface-hover: #e5e5e5;
   --text-color: #000000;
-  --text-secondary: #52525b;
-  --primary-color: #257d0d;
-  --primary-hover: #1e630a;
+  --border-color: #dddddd;
 }
 
+/* Reset Básico */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  user-select: none;
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
+  overflow: hidden;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
-/* Topo / Header */
+/* ==========================================================================
+   Header Superior
+   ========================================================================== */
 .app-header {
   height: var(--header-height);
   background-color: var(--surface-color);
@@ -47,7 +47,7 @@ body {
   display: flex;
   align-items: center;
   padding: 0 16px;
-  z-index: 20;
+  z-index: 10;
 }
 
 .brand {
@@ -56,27 +56,28 @@ body {
   gap: 12px;
 }
 
-.brand-logo {
+.app-logo {
   width: 28px;
   height: 28px;
 }
 
-.brand-name {
+.app-title {
   font-size: 1.1rem;
   font-weight: 700;
+  color: var(--primary-color);
   letter-spacing: 0.5px;
-  color: var(--text-color);
 }
 
-/* Layout Principal */
+/* ==========================================================================
+   Layout Principal
+   ========================================================================== */
 .app-container {
   display: flex;
   flex: 1;
-  position: relative;
-  overflow: hidden;
+  height: calc(100vh - var(--header-height));
 }
 
-/* Barra Lateral */
+/* Sidebar / Menu Lateral */
 .sidebar {
   width: var(--sidebar-width);
   background-color: var(--surface-color);
@@ -86,142 +87,116 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
-  z-index: 10;
-  position: relative;
+  z-index: 9;
 }
 
-.nav-group {
+.menu-list {
+  list-style: none;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  width: 100%;
   align-items: center;
+  gap: 6px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
 }
 
-.nav-divider {
-  height: 1px;
-  width: 32px;
-  background-color: var(--border-color);
-  margin: 4px 0;
+.menu-list::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
-/* Botões do Menu */
-.nav-btn {
+.menu-item {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Botões de Ícones Minimalistas */
+.icon-btn {
   width: 42px;
   height: 42px;
-  border-radius: 8px;
   border: none;
   background: transparent;
-  color: var(--text-secondary);
+  color: var(--text-color);
+  border-radius: 8px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
 }
 
-.nav-btn:hover {
+.icon-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+.icon-btn:hover {
   background-color: var(--surface-hover);
-  color: var(--text-color);
+  color: var(--primary-color);
 }
 
-.nav-btn.active {
+.icon-btn:active {
+  transform: scale(0.95);
+}
+
+.icon-btn.active {
   background-color: var(--primary-color);
   color: #ffffff;
 }
 
-.icon {
-  width: 20px;
-  height: 20px;
-}
-
-.hidden {
-  display: none !important;
-}
-
-/* Submenu Nível 2 (Flyout) */
-.flyout-menu {
+/* Submenu de Nível 2 (Popout Escondido) */
+.submenu {
+  display: none;
   position: absolute;
-  top: 0;
   left: var(--sidebar-width);
-  height: 100%;
+  top: 0;
   background-color: var(--surface-color);
-  border-right: 1px solid var(--border-color);
-  padding: 12px 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transform: translateX(-100%);
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
-  z-index: 5;
-  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
-}
-
-.flyout-menu.open {
-  transform: translateX(0);
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.flyout-header {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  padding: 4px 8px;
-  margin-bottom: 4px;
-}
-
-.flyout-btn {
-  height: 36px;
-  padding: 0 12px;
-  border-radius: 6px;
   border: 1px solid var(--border-color);
-  background: var(--bg-color);
-  color: var(--text-color);
+  border-radius: 8px;
+  padding: 6px;
+  list-style: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  flex-direction: column;
+  gap: 6px;
+  z-index: 100;
+}
+
+.menu-item.open .submenu {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-.flyout-btn:hover {
-  background-color: var(--primary-color);
-  color: #ffffff;
-  border-color: var(--primary-color);
-}
-
+/* Badges para Submenus com texto curto (ex: JSON, MD, TXT, DOCX) */
 .badge {
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
 }
 
-/* Conteúdo Principal */
+/* Rodapé da Sidebar */
+.sidebar-footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Alternância Sol/Lua no modo claro/escuro */
+[data-theme="dark"] .moon-icon { display: none; }
+[data-theme="dark"] .sun-icon { display: block; }
+[data-theme="light"] .sun-icon { display: none; }
+[data-theme="light"] .moon-icon { display: block; }
+
+/* ==========================================================================
+   Área Principal de Conteúdo
+   ========================================================================== */
 .main-content {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
   background-color: var(--bg-color);
-}
-
-.welcome-card {
-  background-color: var(--surface-color);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 24px;
-  max-width: 600px;
-}
-
-.welcome-card h1 {
-  font-size: 1.5rem;
-  margin-bottom: 8px;
-  color: var(--primary-color);
-}
-
-.welcome-card p {
-  color: var(--text-secondary);
-  line-height: 1.5;
 }

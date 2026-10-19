@@ -1,14 +1,30 @@
-// Scriptor PWA Core Logic
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Lucide Icons
-    if (window.lucide) {
-        lucide.createIcons();
-    }
-
-    // Register Service Worker
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js')
-            .then((reg) => console.log('Scriptor Service Worker Registrado com Sucesso:', reg.scope))
-            .catch((err) => console.warn('Falha no Registro do Service Worker:', err));
-    }
-});
+{
+"short_name": "Scriptor",
+"name": "Scriptor PWA Studio",
+"description": "Metodologia e Desenvolvimento de Roteiros e Narrativas",
+"icons": [
+{
+"src": "logo.svg",
+"type": "image/svg+xml",
+"sizes": "512x512"
+},
+{
+"src": "icon-192.png",
+"type": "image/png",
+"sizes": "192x192"
+},
+{
+"src": "icon-512.png",
+"type": "image/png",
+"sizes": "512x512"
+}
+],
+"start_url": "./index.html",
+"background_color": "#000000",
+"theme_color": "#257d0d",
+"display": "standalone",
+"orientation": "any",
+"id": "com.scriptor.pwa",
+"dir": "ltr",
+"lang": "pt-BR"
+}

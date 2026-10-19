@@ -63,10 +63,14 @@ function initMenu() {
 
       const mainView = document.getElementById('app-view');
 
-      // Carregamento dinâmico da rota de Língua Portuguesa
+      // Carregamento dinâmico das rotas de Teoria
       if (target.dataset.route === 'theory-pt') {
         if (typeof theoryPtContent !== 'undefined') {
           mainView.innerHTML = theoryPtContent;
+        }
+      } else if (target.dataset.route === 'theory-storygenius') {
+        if (typeof theoryStoryGeniusContent !== 'undefined') {
+          mainView.innerHTML = theoryStoryGeniusContent;
         }
       } else if (target.dataset.route) {
         mainView.innerHTML = `<h2>Conteúdo da rota: ${target.dataset.route}</h2><p>Página em desenvolvimento.</p>`;

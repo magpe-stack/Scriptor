@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==========================================================================
-   1. Gerenciamento do Modo Claro/Escuro
+   1. Alternância do Modo Claro/Escuro
    ========================================================================== */
 function initTheme() {
   const themeToggleBtn = document.getElementById('theme-toggle');
@@ -27,59 +27,44 @@ function initTheme() {
 }
 
 /* ==========================================================================
-   2. Navegação e Comportamento dos Submenus
+   2. Navegação e Expansão dos Submenus de Nível 2
    ========================================================================== */
 function initMenu() {
   const hasSubmenuItems = document.querySelectorAll('.menu-item.has-submenu');
 
-  // Alternar visibilidade do submenu de Nível 2
   hasSubmenuItems.forEach(item => {
     const toggleBtn = item.querySelector('.toggle-submenu');
     
     toggleBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       
-      // Fecha outros submenus abertos
+      const isOpen = item.classList.contains('open');
+
+      // Fecha outros submenus para manter sanfona única
       hasSubmenuItems.forEach(otherItem => {
-        if (otherItem !== item) {
-          otherItem.classList.remove('open');
-        }
+        otherItem.classList.remove('open');
       });
 
-      item.classList.toggle('open');
+      // Alterna o submenu atual
+      if (!isOpen) {
+        item.classList.add('open');
+      }
     });
   });
 
-  // Fechar submenus ao clicar fora da sidebar
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.sidebar')) {
-      hasSubmenuItems.forEach(item => item.classList.remove('open'));
-    }
-  });
-
-  // Handler universal para cliques nos botões de ação e rotas
+  // Handler para ações e cliques nos botões
   document.querySelectorAll('.icon-btn[data-route], .icon-btn[data-action], .icon-btn[data-export], .icon-btn[data-import]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const target = e.currentTarget;
       
-      // Remove classe 'active' de todos os botões de nível 1
-      document.querySelectorAll('.main-menu > .menu-item > .icon-btn').forEach(b => b.classList.remove('active'));
-      
-      // Adiciona 'active' ao botão clicado ou ao pai se for submenu
-      const parentMenuItem = target.closest('.menu-item');
-      if (parentMenuItem) {
-        const primaryBtn = parentMenuItem.querySelector('.icon-btn');
-        if (primaryBtn) primaryBtn.classList.add('active');
-      }
+      // Destaca botão ativo
+      document.querySelectorAll('.icon-btn').forEach(b => b.classList.remove('active'));
+      target.classList.add('active');
 
-      // Fecha submenus após seleção
-      hasSubmenuItems.forEach(item => item.classList.remove('open'));
-
-      // Log temporário de teste
-      if (target.dataset.route) console.log(`Navegar para rota: ${target.dataset.route}`);
-      if (target.dataset.action) console.log(`Executar ação: ${target.dataset.action}`);
-      if (target.dataset.export) console.log(`Exportar formato: ${target.dataset.export}`);
-      if (target.dataset.import) console.log(`Importar formato: ${target.dataset.import}`);
+      if (target.dataset.route) console.log(`Rota acessada: ${target.dataset.route}`);
+      if (target.dataset.action) console.log(`Ação acionada: ${target.dataset.action}`);
+      if (target.dataset.export) console.log(`Exportar arquivo: ${target.dataset.export}`);
+      if (target.dataset.import) console.log(`Importar arquivo: ${target.dataset.import}`);
     });
   });
 }
@@ -91,8 +76,8 @@ function initPWA() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('sw.js')
-        .then(reg => console.log('Service Worker registrado com sucesso:', reg.scope))
-        .catch(err => console.error('Falha ao registrar Service Worker:', err));
+        .then(reg => console.log('Service Worker registrado:', reg.scope))
+        .catch(err => console.error('Erro no Service Worker:', err));
     });
   }
 }

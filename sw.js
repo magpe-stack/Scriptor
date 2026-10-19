@@ -15,7 +15,6 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(ASSETS_TO_CACHE).catch(() => {
-        // Safe fallback for optional icon placeholders
         return Promise.all(
           ASSETS_TO_CACHE.map(url => cache.add(url).catch(() => {}))
         );

@@ -87,7 +87,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
-  z-index: 9;
+  transition: width 0.2s ease;
 }
 
 .menu-list {
@@ -99,24 +99,25 @@ body {
   gap: 6px;
   overflow-y: auto;
   overflow-x: hidden;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 
 .menu-list::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  display: none;
 }
 
 .menu-item {
-  position: relative;
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Botões de Ícones Minimalistas */
 .icon-btn {
   width: 42px;
   height: 42px;
+  min-height: 42px;
   border: none;
   background: transparent;
   color: var(--text-color);
@@ -148,30 +149,37 @@ body {
   color: #ffffff;
 }
 
-/* Submenu de Nível 2 (Popout Escondido) */
+/* Submenu Inline (Accordion) */
 .submenu {
   display: none;
-  position: absolute;
-  left: var(--sidebar-width);
-  top: 0;
-  background-color: var(--surface-color);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 6px;
-  list-style: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   flex-direction: column;
-  gap: 6px;
-  z-index: 100;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 6px 0;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-top: 1px dashed var(--border-color);
+  border-bottom: 1px dashed var(--border-color);
 }
 
 .menu-item.open .submenu {
   display: flex;
 }
 
-/* Badges para Submenus com texto curto (ex: JSON, MD, TXT, DOCX) */
+.sub-btn {
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+}
+
+.sub-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Badges de Formato (JSON, MD, TXT, DOCX) */
 .badge {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 800;
   letter-spacing: 0.5px;
 }
@@ -185,14 +193,14 @@ body {
   border-top: 1px solid var(--border-color);
 }
 
-/* Alternância Sol/Lua no modo claro/escuro */
+/* Modo claro/escuro */
 [data-theme="dark"] .moon-icon { display: none; }
 [data-theme="dark"] .sun-icon { display: block; }
 [data-theme="light"] .sun-icon { display: none; }
 [data-theme="light"] .moon-icon { display: block; }
 
 /* ==========================================================================
-   Área Principal de Conteúdo
+   Área Principal de Conteúdo (Empurrado de Forma Fluida)
    ========================================================================== */
 .main-content {
   flex: 1;

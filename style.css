@@ -200,11 +200,43 @@ body {
 [data-theme="light"] .moon-icon { display: block; }
 
 /* ==========================================================================
-   Área Principal de Conteúdo (Empurrado de Forma Fluida)
+   Área Principal de Conteúdo
    ========================================================================== */
 .main-content {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
   background-color: var(--bg-color);
+}
+
+/* Estilização dos Artigos de Teoria */
+.theory-article {
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.theory-article h1 {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  margin-bottom: 16px;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 8px;
+}
+
+.theory-article h2 {
+  font-size: 1.3rem;
+  color: var(--primary-color);
+  margin-top: 28px;
+  margin-bottom: 10px;
+}
+
+.theory-article p {
+  margin-bottom: 16px;
+  text-align: justify;
+}
+
+.theory-article section {
+  margin-bottom: 24px;
 }

@@ -5,6 +5,7 @@ const ASSETS = [
   './style.css',
   './app.js',
   './theory-pt.js',
+  './theory-storygenius.js',
   './manifest.json',
   './logo.svg',
   './icon-192.png',

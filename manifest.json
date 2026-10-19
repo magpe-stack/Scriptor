@@ -1,30 +1,21 @@
 {
+  "name": "Scriptor",
   "short_name": "Scriptor",
-  "name": "Scriptor PWA Studio",
-  "description": "Metodologia e Desenvolvimento de Roteiros e Narrativas",
+  "description": "Aplicação PWA para Planejamento Literário e Roteiros",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d0d0d",
+  "theme_color": "#257d0d",
   "icons": [
     {
-      "src": "logo.svg",
-      "type": "image/svg+xml",
-      "sizes": "512x512"
-    },
-    {
       "src": "icon-192.png",
-      "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "type": "image/png"
     },
     {
       "src": "icon-512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "type": "image/png"
     }
-  ],
-  "start_url": "./index.html",
-  "background_color": "#000000",
-  "theme_color": "#257d0d",
-  "display": "standalone",
-  "orientation": "any",
-  "id": "com.scriptor.pwa",
-  "dir": "ltr",
-  "lang": "pt-BR"
+  ]
 }

@@ -1,4 +1,11 @@
-const CACHE_NAME = 'scriptor-v5';
+/**
+ * Scriptor - Service Worker (PWA)
+ * Versão: scriptor-v6
+ */
+
+const CACHE_NAME = 'scriptor-v6';
+
+// Ficheiros essenciais mantidos em cache para funcionamento offline
 const ASSETS = [
   './',
   './index.html',
@@ -11,6 +18,7 @@ const ASSETS = [
   './theory-tips.js',
   './form-phase1.js',
   './form-phase2.js',
+  './form-phase3.js',
   './manifest.json',
   './logo.svg',
   './storygenius-capa.svg',
@@ -19,21 +27,25 @@ const ASSETS = [
   './icon-512.png'
 ];
 
-self.addEventListener('install', (e) => {
-  e.waitUntil(
+// Instalação do Service Worker e armazenamento dos recursos em cache
+self.addEventListener('install', (event) => {
+  event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
+      console.log('[Service Worker] A guardar os recursos na cache:', CACHE_NAME);
       return cache.addAll(ASSETS);
     })
   );
   self.skipWaiting();
 });
 
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
+// Ativação e eliminação de caches antigas
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
+            console.log('[Service Worker] A remover cache antiga:', key);
             return caches.delete(key);
           }
         })
@@ -43,13 +55,14 @@ self.addEventListener('activate', (e) => {
   self.clients.claim();
 });
 
-self.addEventListener('fetch', (e) => {
-  e.respondWith(
-    caches.match(e.request).then((cachedResponse) => {
+// Interceção de pedidos de rede (estratégia Cache First com fallback de rede)
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
         return cachedResponse;
       }
-      return fetch(e.request);
+      return fetch(event.request);
     })
   );
 });

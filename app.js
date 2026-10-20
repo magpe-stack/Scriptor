@@ -2,11 +2,17 @@
  * Scriptor - Aplicação Principal
  */
 
+// Estado Global do Projeto do Utilizador
 let projectState = {
   title: "",
   phase1: {},
   phase2: {},
-  phase3: {},
+  phase3: {
+    problemaExterno: {},
+    conflitosSecundarios: [],
+    pontosDeVirada: [],
+    personagensApoio: []
+  },
   phase4: [],
   phase5: [],
   editorDraft: ""
@@ -20,6 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
   loadLocalProject();
 });
 
+/* ==========================================================================
+   1. Persistência Local Básica
+   ========================================================================== */
 function saveLocalProject() {
   localStorage.setItem('scriptor_current_project', JSON.stringify(projectState));
 }
@@ -35,6 +44,9 @@ function loadLocalProject() {
   }
 }
 
+/* ==========================================================================
+   2. Alternância do Modo Claro/Escuro & Ação do Logótipo
+   ========================================================================== */
 function initTheme() {
   const themeToggleBtn = document.getElementById('theme-toggle');
   const savedTheme = localStorage.getItem('scriptor-theme') || 'dark';
@@ -60,6 +72,9 @@ function initBrandClick() {
   });
 }
 
+/* ==========================================================================
+   3. Renderização de Ecrãs "Home" e "Novo Projeto"
+   ========================================================================== */
 function renderWelcomeView() {
   return `
     <section id="app-view" class="welcome-container">
@@ -125,6 +140,9 @@ function initNewProjectEvents() {
   });
 }
 
+/* ==========================================================================
+   4. Navegação Principal e Rotas
+   ========================================================================== */
 function navigateToRoute(route) {
   const mainView = document.getElementById('app-view');
 
@@ -146,6 +164,11 @@ function navigateToRoute(route) {
     if (typeof renderPhase2View !== 'undefined') {
       mainView.innerHTML = renderPhase2View();
       initPhase2Events();
+    }
+  } else if (route === 'phase3') {
+    if (typeof renderPhase3View !== 'undefined') {
+      mainView.innerHTML = renderPhase3View();
+      initPhase3Events();
     }
   } else if (route === 'theory-pt') {
     if (typeof theoryPtContent !== 'undefined') mainView.innerHTML = theoryPtContent;
@@ -212,6 +235,9 @@ function initMenu() {
   });
 }
 
+/* ==========================================================================
+   5. Carregar / Importar Projeto de Ficheiro JSON
+   ========================================================================== */
 function importJsonProject() {
   const fileInput = document.createElement('input');
   fileInput.type = 'file';
@@ -247,6 +273,9 @@ function importJsonProject() {
   fileInput.click();
 }
 
+/* ==========================================================================
+   6. Exportação Semântica Ordenada
+   ========================================================================== */
 function exportProject(format) {
   if (!projectState.title) {
     alert('Nenhum projeto foi iniciado ainda.');
@@ -256,12 +285,16 @@ function exportProject(format) {
   const filename = `${projectState.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}_scriptor`;
   const p1 = projectState.phase1 || {};
   const p2 = projectState.phase2 || {};
+  const p3 = projectState.phase3 || {};
+  const pe = p3.problemaExterno || {};
 
   if (format === 'json') {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(projectState, null, 2));
     downloadFile(dataStr, `${filename}.json`);
   } else if (format === 'md' || format === 'txt') {
     let content = `# ${projectState.title}\n\n`;
+
+    // Fase 1
     content += `## Fase 1: Fundação e Conexão Autoral\n\n`;
     content += `### 1. A Primeira Fagulha\n${p1.fagulha || '(Vazio)'}\n\n`;
     content += `### 2. Por Que Você Se Importa?\n${p1.motivacao || '(Vazio)'}\n\n`;
@@ -272,19 +305,64 @@ function exportProject(format) {
     content += `### 7. Livros Comparáveis\n${p1.comps || '(Vazio)'}\n\n`;
     content += `### 8. Promessa de Entretenimento e Gênero\n${p1.promessa || '(Vazio)'}\n\n`;
 
+    // Fase 2
     content += `## Fase 2: Arquitetura Psicológica e Backstory Dramatizada\n\n`;
-    content += `### Passo 5: Estado Inicial\n${p2.estadoInicial || '(Vazio)'}\n\n`;
-    content += `### Passo 6: Desejo Superficial\n${p2.desejoSuperficial || '(Vazio)'}\n\n`;
-    content += `### Passo 7: Motivação Interna do Desejo\n${p2.motivacaoInterna || '(Vazio)'}\n\n`;
-    content += `### Passo 8: A Falsa Crença Central\n${p2.falsaCrenca || '(Vazio)'}\n\n`;
-    content += `### Passos 9 e 10: A Cena de Origem (Planejamento)\n${p2.cenaOrigemPlanejamento || '(Vazio)'}\n\n`;
-    content += `### Passos 9 e 10: A Cena de Origem (A Escrita)\n${p2.cenaOrigemEscrita || '(Vazio)'}\n\n`;
-    content += `### Passo 11: Cenas de Encruzilhada\n`;
+    content += `### 5. Estado Inicial\n${p2.estadoInicial || '(Vazio)'}\n\n`;
+    content += `### 6. Desejo Superficial\n${p2.desejoSuperficial || '(Vazio)'}\n\n`;
+    content += `### 7. Motivação Interna do Desejo\n${p2.motivacaoInterna || '(Vazio)'}\n\n`;
+    content += `### 8. A Falsa Crença Central\n${p2.falsaCrenca || '(Vazio)'}\n\n`;
+    content += `### 9 e 10. A Cena de Origem (Planejamento)\n${p2.cenaOrigemPlanejamento || '(Vazio)'}\n\n`;
+    content += `### 9 e 10. A Cena de Origem (A Escrita)\n${p2.cenaOrigemEscrita || '(Vazio)'}\n\n`;
+    content += `### 11. Cenas de Encruzilhada\n`;
     content += `* **Primeiro Momento:** ${p2.encruzilhada1 || '(Vazio)'}\n`;
     content += `* **Segundo Momento:** ${p2.encruzilhada2 || '(Vazio)'}\n`;
     content += `* **Terceiro Momento:** ${p2.encruzilhada3 || '(Vazio)'}\n\n`;
 
-    content += `## Fase 3: Enredo Causal\n\n(A preencher)\n\n`;
+    // Fase 3
+    content += `## Fase 3: Estruturação Causal do Enredo e Terceiro Trilho\n\n`;
+    content += `### 12. O Problema Externo Principal\n`;
+    content += `* **Descrição:** ${pe.descricao || '(Vazio)'}\n`;
+    content += `* **Consequências Reais:** ${pe.consequencias || '(Vazio)'}\n`;
+    content += `* **Prazo Limite:** ${pe.prazoLimite || '(Vazio)'}\n`;
+    content += `* **Alto Custo Emocional:** ${pe.custoEmocional || '(Vazio)'}\n\n`;
+
+    content += `### 13 & 14. Conflitos Secundários e Avaliação do Terceiro Trilho\n`;
+    if (p3.conflitosSecundarios && p3.conflitosSecundarios.length > 0) {
+      p3.conflitosSecundarios.forEach((c, i) => {
+        content += `#### Conflito #${i+1}\n`;
+        content += `* **Texto:** ${c.texto || '(Vazio)'}\n`;
+        content += `* **Estágio:** ${c.categoria}\n`;
+        content += `* **Força Dramática:** ${c.avaliacaoForca}\n`;
+        content += `* **Terceiro Trilho:** ${c.avaliacaoTerceiroTrilho}\n`;
+        content += `* **Notas:** ${c.notasQualitativas || '(Sem notas)'}\n\n`;
+      });
+    } else {
+      content += `(Nenhum conflito cadastrado)\n\n`;
+    }
+
+    content += `### 15. Pontos de Virada\n`;
+    if (p3.pontosDeVirada && p3.pontosDeVirada.length > 0) {
+      p3.pontosDeVirada.forEach((pv, i) => {
+        content += `#### Ponto de Virada #${i+1}: ${pv.titulo || '(Sem título)'}\n`;
+        content += `${pv.descricao || '(Sem descrição)'}\n`;
+        content += `* Causalidade ("Portanto"): ${pv.testeCausaEfeito ? 'Sim' : 'Não'}\n`;
+        content += `* Fere Falsa Crença: ${pv.testeImpactoFalsaCrenca ? 'Sim' : 'Não'}\n`;
+        content += `* Sem saída fácil: ${pv.testeAcaoVazia ? 'Sim' : 'Não'}\n\n`;
+      });
+    } else {
+      content += `(Nenhum ponto de virada cadastrado)\n\n`;
+    }
+
+    content += `### 16. Personagens de Apoio\n`;
+    if (p3.personagensApoio && p3.personagensApoio.length > 0) {
+      p3.personagensApoio.forEach((pers) => {
+        content += `* **${pers.nome || 'Sem nome'}** (${pers.funcao}): ${pers.conexaoEnredoCrenca || '(Sem conexão)'}\n`;
+      });
+      content += `\n`;
+    } else {
+      content += `(Nenhum personagem de apoio cadastrado)\n\n`;
+    }
+
     content += `## Fase 4: Cartões de Cena\n\n(A preencher)\n\n`;
     content += `## Fase 5: Roteiro (Roadmap)\n\n(A preencher)\n\n`;
     content += `## Rascunho Final\n\n${projectState.editorDraft || '(Vazio)'}\n`;
@@ -306,6 +384,9 @@ function downloadFile(dataStr, fileName) {
   downloadAnchor.remove();
 }
 
+/* ==========================================================================
+   7. Registro do Service Worker (PWA)
+   ========================================================================== */
 function initPWA() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {

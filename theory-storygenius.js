@@ -1,11 +1,26 @@
 /**
  * Conteúdo de Teoria: Método Story Genius
- * O texto permanece estritamente idêntico ao fornecido, com formatação HTML para exibição na tela.
+ * O texto permanece estritamente idêntico ao fornecido, com formatação HTML e o card promocional do livro.
  */
 
 const theoryStoryGeniusContent = `
 <article class="theory-article">
   <h1>Método Story Genius</h1>
+
+  <!-- Card do Livro Story Genius -->
+  <div class="book-card">
+    <img src="storygenius-capa.svg" alt="Capa do livro Story Genius de Lisa Cron" class="book-cover">
+    <div class="book-info">
+      <h3 class="book-title">Story Genius</h3>
+      <p class="book-author">por <strong>Lisa Cron</strong></p>
+      <p class="book-summary">
+        Um guia fundamentado na neurociência cognitiva para construir romances poderosos a partir da jornada psicológica interna do protagonista, e não apenas de fatos do enredo.
+      </p>
+      <a href="https://www.amazon.com.br/dp/B0180T2YZQ" target="_blank" rel="noopener noreferrer" class="buy-btn">
+        Comprar na Amazon
+      </a>
+    </div>
+  </div>
 
   <section>
     <h2>Neurociência narrativa</h2>

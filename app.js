@@ -81,7 +81,7 @@ function initBrandClick() {
 }
 
 /* ==========================================================================
-   3. Renderização de Ecrãs "Home" e "Novo Projeto"
+   3. Renderização de Ecrãs "Home", "Novo Projeto" e Reset de Cache
    ========================================================================== */
 function renderWelcomeView() {
   return `
@@ -99,22 +99,35 @@ function renderNewProjectView() {
   return `
     <article class="theory-article">
       <h1>Novo Projeto de Romance</h1>
-      <p>Informe o título do seu livro para iniciar a jornada de arquitetura e planejamento narrativo.</p>
+      <p>Informe o título do seu novo livro para iniciar uma nova estrutura do zero, ou utilize a opção de reset para apagar todo o cache do navegador.</p>
 
       <div class="project-form-card">
-        <label for="project-title-input" class="form-label">Título do Romance</label>
+        <label for="project-title-input" class="form-label">Título do Novo Romance</label>
         <input 
           type="text" 
           id="project-title-input" 
           class="form-input" 
-          placeholder="Título do projeto" 
-          value="${projectState.title || ''}"
+          placeholder="Digite o título do seu novo livro..." 
           autocomplete="off"
         />
         
-        <div class="form-actions">
+        <div class="form-actions" style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 12px;">
           <button id="start-project-btn" class="primary-btn">
-            Iniciar
+            Iniciar Novo Projeto
+          </button>
+        </div>
+      </div>
+
+      <!-- Ação Crítica: Limpar Cache e Dados Armazenados -->
+      <div class="project-form-card" style="border-color: rgba(255, 87, 34, 0.4); margin-top: 24px;">
+        <h3 style="margin: 0; font-size: 1.05rem; color: #ff5722;">Limpar Cache e Resetar Dados</h3>
+        <p class="field-hint" style="margin-bottom: 12px !important;">
+          Caso queira apagar completamente o projeto atual e reiniciar todo o cache do aplicativo no seu navegador, clique no botão abaixo.
+        </p>
+        <div>
+          <button id="clear-cache-btn" class="card-ctrl-btn" style="border-color: #ff5722; color: #ff5722; cursor: pointer;">
+            <svg viewBox="0 0 24 24" style="fill: currentColor; width: 18px; height: 18px;"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+            Limpar Cache e Resetar Aplicação
           </button>
         </div>
       </div>
@@ -125,27 +138,75 @@ function renderNewProjectView() {
 function initNewProjectEvents() {
   const titleInput = document.getElementById('project-title-input');
   const startBtn = document.getElementById('start-project-btn');
+  const clearCacheBtn = document.getElementById('clear-cache-btn');
 
-  if (!startBtn) return;
+  if (startBtn) {
+    startBtn.addEventListener('click', () => {
+      const inputVal = titleInput.value.trim();
+      if (!inputVal) {
+        alert('Por favor, digite o título do novo projeto antes de iniciar.');
+        titleInput.focus();
+        return;
+      }
 
-  startBtn.addEventListener('click', () => {
-    const inputVal = titleInput.value.trim();
-    if (!inputVal) {
-      alert('Por favor, digite o título do projeto antes de iniciar.');
-      titleInput.focus();
-      return;
-    }
+      // Reinicialização completa da estrutura de dados
+      projectState = {
+        title: inputVal,
+        phase1: {},
+        phase2: {},
+        phase3: {
+          problemaExterno: {},
+          conflitosSecundarios: [],
+          pontosDeVirada: [],
+          personagensApoio: []
+        },
+        phase4: [],
+        phase5: [],
+        sceneDrafts: {},
+        currentWritingSceneId: null,
+        editorDraft: ""
+      };
 
-    projectState.title = inputVal;
-    saveLocalProject();
-    navigateToRoute('phase1');
-  });
+      saveLocalProject();
+      alert(`Novo projeto "${inputVal}" criado com sucesso!`);
+      navigateToRoute('phase1');
+    });
+  }
 
-  titleInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      startBtn.click();
-    }
-  });
+  if (titleInput) {
+    titleInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        startBtn.click();
+      }
+    });
+  }
+
+  if (clearCacheBtn) {
+    clearCacheBtn.addEventListener('click', () => {
+      if (confirm('Deseja realmente apagar todos os dados do projeto atual e resetar a aplicação?')) {
+        localStorage.removeItem('scriptor_current_project');
+
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(registrations => {
+            for (let registration of registrations) {
+              registration.unregister();
+            }
+          });
+        }
+
+        if ('caches' in window) {
+          caches.keys().then(names => {
+            for (let name of names) {
+              caches.delete(name);
+            }
+          });
+        }
+
+        alert('Aplicação resetada com sucesso!');
+        window.location.reload(true);
+      }
+    });
+  }
 }
 
 /* ==========================================================================

@@ -13,7 +13,7 @@
   --primary-hover: #216d0b;
   --input-bg: #2a2a2a;
   --header-height: 60px;
-  --sidebar-width: 64px; /* Menu enxuto para os ícones */
+  --sidebar-width: 64px; /* Menu compacto para os ícones */
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
@@ -44,7 +44,7 @@ html, body {
   min-height: 100vh;
   width: 100%;
   overflow-x: hidden;
-  overflow-y: auto; /* Permite a rolagem nativa e suave da página */
+  overflow-y: auto; /* Rolagem nativa e suave da área de conteúdo */
 }
 
 body {
@@ -104,13 +104,13 @@ body {
 .app-container {
   display: flex;
   flex-direction: row;
-  margin-top: var(--header-height); /* Espaço compensando o cabeçalho fixo */
+  margin-top: var(--header-height); /* Compensa a altura do cabeçalho fixo */
   min-height: calc(100vh - var(--header-height));
   width: 100%;
 }
 
 /* ==========================================================================
-   4. Menu Lateral Sempre Fixo na Tela (Sidebar Sem Barra de Rolagem)
+   4. Menu Lateral Sempre Fixo na Tela (Sidebar com Rolagem Ultrafina)
    ========================================================================== */
 .sidebar {
   width: var(--sidebar-width);
@@ -126,8 +126,27 @@ body {
   bottom: 0;
   left: 0;
   z-index: 900;
-  overflow: visible; /* Elimina qualquer barra de rolagem no menu */
+  overflow-y: auto; /* Ativa rolagem vertical caso os submenus expandam */
+  overflow-x: hidden;
   align-items: center;
+}
+
+/* Barra de rolagem ultrafina e quase imperceptível para a sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
 }
 
 .main-menu {
@@ -179,7 +198,7 @@ body {
   flex-shrink: 0;
 }
 
-/* Submenus Flutuantes / Compactos */
+/* Submenus Expandíveis */
 .submenu {
   display: none;
   list-style: none;
@@ -215,18 +234,18 @@ body {
   justify-content: center;
 }
 
-/* Ícones de Alternância de Tema */
+/* Ícones do Modo Claro / Escuro */
 [data-theme="dark"] .sun-icon { display: block; }
 [data-theme="dark"] .moon-icon { display: none; }
 [data-theme="light"] .sun-icon { display: none; }
 [data-theme="light"] .moon-icon { display: block; }
 
 /* ==========================================================================
-   5. Área Principal de Conteúdo Com Rolagem Fluida (main-content)
+   5. Área Principal de Conteúdo (main-content)
    ========================================================================== */
 .main-content {
   flex: 1;
-  margin-left: var(--sidebar-width); /* Empurra o conteúdo para não ficar atrás do menu fixo */
+  margin-left: var(--sidebar-width); /* Desloca o conteúdo para não cobrir o menu fixo */
   padding: 32px 28px;
   width: calc(100% - var(--sidebar-width));
   background-color: var(--bg-color);
@@ -394,7 +413,7 @@ body {
 }
 
 /* ==========================================================================
-   7. Editor de Rascunho Expandido (Largura Total Ampla)
+   7. Editor de Rascunho Expandido (Largura Ampla)
    ========================================================================== */
 .editor-page-container {
   display: flex;
@@ -623,7 +642,7 @@ body {
 }
 
 /* ==========================================================================
-   9. Barras de Rolagem Customizadas (Scrollbars)
+   9. Barras de Rolagem Customizadas Globais
    ========================================================================== */
 ::-webkit-scrollbar {
   width: 8px;

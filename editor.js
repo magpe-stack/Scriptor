@@ -1,5 +1,5 @@
 /**
- * Scriptor - Editor de Escrita Focalizada por Cena
+ * Scriptor - Editor de Escrita Focalizada por Cena (Rich Text / WYSIWYG)
  */
 
 function renderEditorView() {
@@ -22,11 +22,14 @@ function renderEditorView() {
     ? projectState.sceneDrafts[activeScene.id] 
     : { title: activeScene ? (activeScene.titulo || '') : '', content: '' };
 
-  // Contadores de palavras, frases e parágrafos
-  const textContent = draftData.content || '';
-  const wordCount = textContent.trim() === '' ? 0 : textContent.trim().split(/\s+/).length;
-  const paraCount = textContent.trim() === '' ? 0 : textContent.split(/\n+/).filter(p => p.trim() !== '').length;
-  const sentCount = textContent.trim() === '' ? 0 : textContent.split(/[.!?]+/).filter(s => s.trim() !== '').length;
+  // Calcular contadores do texto
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = draftData.content || '';
+  const plainText = tempDiv.innerText || tempDiv.textContent || '';
+
+  const wordCount = plainText.trim() === '' ? 0 : plainText.trim().split(/\s+/).length;
+  const paraCount = plainText.trim() === '' ? 0 : plainText.split(/\n+/).filter(p => p.trim() !== '').length;
+  const sentCount = plainText.trim() === '' ? 0 : plainText.split(/[.!?]+/).filter(s => s.trim() !== '').length;
 
   const isCardVisible = projectState.isEditorCardVisible !== false;
   const isFocusMode = Boolean(projectState.isEditorFocusMode);
@@ -43,10 +46,10 @@ function renderEditorView() {
           </div>
         </div>
 
-        <!-- Barra de Ferramentas, Seletor de Cenas e Formatação -->
+        <!-- Barra de Ferramentas e Seletor de Cenas -->
         <div class="editor-toolbar-card project-form-card">
           
-          <!-- Seletor de Cenas e Botão de Adição -->
+          <!-- Seletor de Cenas e Botão Adicionar -->
           <div class="editor-selector-row">
             <select id="editor-scene-selector" class="form-input editor-select">
               ${projectState.phase4.length === 0 ? `<option value="">Nenhuma cena cadastrada no roteiro</option>` : ''}
@@ -62,7 +65,7 @@ function renderEditorView() {
             </button>
           </div>
 
-          <!-- Ações e Ferramentas Simples de Formatação -->
+          <!-- Ações e Ferramentas de Formatação Visual -->
           <div class="editor-tools-row">
             
             <button id="toggle-card-btn" class="icon-btn editor-icon-btn ${isCardVisible ? 'active' : ''}" title="Mostrar/Esconder Cartão de Cena">
@@ -75,20 +78,26 @@ function renderEditorView() {
 
             <div class="editor-divider"></div>
 
-            <!-- Botões de Formatação Básica -->
-            <button class="icon-btn editor-icon-btn fmt-btn" data-fmt="bold" title="Negrito (**texto**)">
+            <!-- Botões de Formatação Visual (Rich Text) -->
+            <button class="icon-btn editor-icon-btn fmt-btn" data-cmd="bold" title="Negrito">
               <svg viewBox="0 0 24 24"><path d="M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.35zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 11H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z"/></svg>
             </button>
-            <button class="icon-btn editor-icon-btn fmt-btn" data-fmt="italic" title="Itálico (*texto*)">
+            <button class="icon-btn editor-icon-btn fmt-btn" data-cmd="italic" title="Itálico">
               <svg viewBox="0 0 24 24"><path d="M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4z"/></svg>
             </button>
-            <button class="icon-btn editor-icon-btn fmt-btn" data-fmt="h2" title="Título H2 (## )">
+            
+            <!-- Botão de Travessão Longo -->
+            <button class="icon-btn editor-icon-btn fmt-btn" data-cmd="emdash" title="Inserir Travessão (—)">
+              <span style="font-weight: 800; font-size: 1.4rem; transform: scaleX(1.4); display: inline-block;">—</span>
+            </button>
+
+            <button class="icon-btn editor-icon-btn fmt-btn" data-cmd="formatBlock" data-val="h2" title="Título H2">
               <span style="font-weight: 800; font-size: 0.9rem;">H2</span>
             </button>
-            <button class="icon-btn editor-icon-btn fmt-btn" data-fmt="h3" title="Título H3 (### )">
+            <button class="icon-btn editor-icon-btn fmt-btn" data-cmd="formatBlock" data-val="h3" title="Título H3">
               <span style="font-weight: 800; font-size: 0.85rem;">H3</span>
             </button>
-            <button class="icon-btn editor-icon-btn fmt-btn" data-fmt="list" title="Lista de Marcadores (- )">
+            <button class="icon-btn editor-icon-btn fmt-btn" data-cmd="insertUnorderedList" title="Lista de Marcadores">
               <svg viewBox="0 0 24 24"><path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/></svg>
             </button>
 
@@ -106,7 +115,7 @@ function renderEditorView() {
       <!-- Espaço do Editor e Cartão de Cena -->
       <div class="editor-workspace ${isCardVisible && !isFocusMode ? 'with-card' : 'card-hidden'}">
         
-        <!-- Cartão de Cena Lateral (Totalmente Oculto no Modo Foco) -->
+        <!-- Cartão de Cena Lateral -->
         ${isCardVisible && !isFocusMode && activeScene ? `
           <aside class="editor-scene-card-panel project-form-card">
             <h3 class="scene-card-title">Cartão de Cena</h3>
@@ -147,7 +156,7 @@ function renderEditorView() {
           </aside>
         ` : ''}
 
-        <!-- Área Principal do Campo de Escrita (Ampla) -->
+        <!-- Área Principal de Escrita Visual (Editable) -->
         <div class="editor-main-area">
           
           <input 
@@ -158,13 +167,15 @@ function renderEditorView() {
             value="${draftData.title || ''}" 
           />
 
-          <textarea 
-            id="scene-content-textarea" 
+          <!-- Área de Rich Text Editável -->
+          <div 
+            id="scene-content-editor" 
             class="form-textarea scene-content-editor" 
+            contenteditable="true"
             placeholder="Comece a escrever a prosa da sua cena aqui..."
-          >${draftData.content || ''}</textarea>
+          >${draftData.content || ''}</div>
 
-          <!-- Contadores em Tempo Real (Ocultos no Modo Foco) -->
+          <!-- Contadores em Tempo Real -->
           ${!isFocusMode ? `
             <div class="editor-counters">
               <span id="word-counter">${wordCount}${wordCount === 1 ? 'palavra' : 'palavras'}</span>
@@ -245,38 +256,32 @@ function initEditorEvents() {
     });
   }
 
-  // Ações de Formatação de Texto Simples
+  // Execução de Comandos de Formatação Visual (WYSIWYG)
   document.querySelectorAll('.fmt-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
-      const fmtType = e.currentTarget.dataset.fmt;
-      const textarea = document.getElementById('scene-content-textarea');
-      if (!textarea) return;
+      const editor = document.getElementById('scene-content-editor');
+      if (!editor) return;
 
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const selectedText = textarea.value.substring(start, end);
+      editor.focus();
 
-      let replacement = '';
-      if (fmtType === 'bold') {
-        replacement = `**${selectedText || 'texto'}**`;
-      } else if (fmtType === 'italic') {
-        replacement = `*${selectedText || 'texto'}*`;
-      } else if (fmtType === 'h2') {
-        replacement = `\n## ${selectedText || 'Título 2'}\n`;
-      } else if (fmtType === 'h3') {
-        replacement = `\n### ${selectedText || 'Título 3'}\n`;
-      } else if (fmtType === 'list') {
-        replacement = `\n- ${selectedText || 'Item de lista'}`;
+      const cmd = e.currentTarget.dataset.cmd;
+      const val = e.currentTarget.dataset.val || null;
+
+      if (cmd === 'emdash') {
+        document.execCommand('insertText', false, '— ');
+      } else if (cmd === 'formatBlock') {
+        document.execCommand('formatBlock', false, `<${val}>`);
+      } else {
+        document.execCommand(cmd, false, val);
       }
 
-      textarea.setRangeText(replacement, start, end, 'select');
-      textarea.dispatchEvent(new Event('input'));
-      textarea.focus();
+      // Disparar salvamento automático
+      editor.dispatchEvent(new Event('input'));
     });
   });
 
   const titleInput = document.getElementById('scene-title-input');
-  const contentTextarea = document.getElementById('scene-content-textarea');
+  const editorDiv = document.getElementById('scene-content-editor');
   const activeId = projectState.currentWritingSceneId;
 
   if (titleInput && activeId) {
@@ -293,18 +298,21 @@ function initEditorEvents() {
     });
   }
 
-  if (contentTextarea && activeId) {
-    contentTextarea.addEventListener('input', (e) => {
+  if (editorDiv && activeId) {
+    editorDiv.addEventListener('input', () => {
       if (!projectState.sceneDrafts[activeId]) {
         projectState.sceneDrafts[activeId] = { title: '', content: '' };
       }
-      const val = e.target.value;
-      projectState.sceneDrafts[activeId].content = val;
+
+      const htmlVal = editorDiv.innerHTML;
+      projectState.sceneDrafts[activeId].content = htmlVal;
       saveLocalProject();
 
-      const words = val.trim() === '' ? 0 : val.trim().split(/\s+/).length;
-      const paras = val.trim() === '' ? 0 : val.split(/\n+/).filter(p => p.trim() !== '').length;
-      const sents = val.trim() === '' ? 0 : val.split(/[.!?]+/).filter(s => s.trim() !== '').length;
+      // Atualizar contadores
+      const plainText = editorDiv.innerText || editorDiv.textContent || '';
+      const words = plainText.trim() === '' ? 0 : plainText.trim().split(/\s+/).length;
+      const paras = plainText.trim() === '' ? 0 : plainText.split(/\n+/).filter(p => p.trim() !== '').length;
+      const sents = plainText.trim() === '' ? 0 : plainText.split(/[.!?]+/).filter(s => s.trim() !== '').length;
 
       const wordCounterElem = document.getElementById('word-counter');
       const sentenceCounterElem = document.getElementById('sentence-counter');

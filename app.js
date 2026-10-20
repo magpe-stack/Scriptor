@@ -76,6 +76,10 @@ function initMenu() {
         if (typeof theoryStepsContent !== 'undefined') {
           mainView.innerHTML = theoryStepsContent;
         }
+      } else if (target.dataset.route === 'theory-example') {
+        if (typeof theoryExampleContent !== 'undefined') {
+          mainView.innerHTML = theoryExampleContent;
+        }
       } else if (target.dataset.route) {
         mainView.innerHTML = `<h2>Conteúdo da rota: ${target.dataset.route}</h2><p>Página em desenvolvimento.</p>`;
       }

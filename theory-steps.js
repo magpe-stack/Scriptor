@@ -5,7 +5,7 @@
 
 const theoryStepsContent = `
 <article class="theory-article">
-<h1>Passo a Passo</h1>
+<h1>Passo a Passo do Método Story Genius</h1>
   <h1>Fase 1: Fundação e Conexão Autoral (Passos 1 a 4)</h1>
   <p>Antes de planejar capítulos ou personagens, você precisa entender a razão da existência da obra.</p>
 

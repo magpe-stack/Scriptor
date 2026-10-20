@@ -30,7 +30,7 @@ const tipsData = [
   "Mesmo que a cena de origem não entre no livro, ela é o pilar que sustenta toda a lógica do enredo.",
   "Crie três cenas de encruzilhada no passado onde o personagem tomou decisões erradas guiado pela falsa crença.",
   "Ninguém entra na história como folha em branco; o passado dramatizado justifica o comportamento defensivo do presente.",
-  "As cenas de encruzilhada mostram o enrijecimento gradual das defesas psicológicas do protagonista ao longo dos anos.",
+  "As cenas de encruzilhada mostram o enrijecimiento gradual das defesas psicológicas do protagonista ao longo dos anos.",
   "Use a backstory para garantir que cada atitude do personagem no primeiro capítulo tenha uma justificativa histórica sólida.",
   "A dor do passado é o combustível da história presente; escave a memória do personagem antes de começar.",
   "O passado do protagonista dita a forma como ele interpreta erroneamente os fatos do presente no romance.",
@@ -217,20 +217,20 @@ function renderTipsView() {
       <h1>Dicas de Escrita e Arquitetura Narrativa</h1>
       <p>Consulte 200 cartões com diretrizes práticas. Cada clique sorteia uma dica totalmente aleatória sem repetição até que todas as 200 sejam visualizadas.</p>
 
-      <div class="flashcard-container">
-        <div class="flashcard-header">
-          <span class="flashcard-counter" id="tip-counter">Exibindo Dicas</span>
-          <button class="copy-btn" id="copy-tip-btn" title="Copiar Dica" aria-label="Copiar Dica">
-            🖐️ <span id="copy-text">Copiar Dica</span>
+      <div class="project-form-card" style="margin-top: 16px; gap: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <span id="tip-counter" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Exibindo Dicas</span>
+          <button class="card-ctrl-btn" id="copy-tip-btn" title="Copiar Dica" aria-label="Copiar Dica">
+            📋 <span id="copy-text">Copiar Dica</span>
           </button>
         </div>
 
-        <div class="flashcard-body">
-          <p id="tip-text" class="flashcard-content"></p>
+        <div style="padding: 12px 0;">
+          <p id="tip-text" style="font-size: 1.15rem; color: var(--text-color); font-weight: 500; line-height: 1.7;"></p>
         </div>
 
-        <div class="flashcard-controls" style="justify-content: center;">
-          <button class="card-ctrl-btn random-btn" id="next-random-tip-btn" title="Exibir Próxima Dica Aleatória">
+        <div style="display: flex; justify-content: center;">
+          <button class="primary-btn" id="next-random-tip-btn" title="Exibir Próxima Dica Aleatória">
             🎲 Próxima Dica Aleatória
           </button>
         </div>

@@ -31,8 +31,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
-  overflow: hidden;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -47,6 +46,8 @@ body {
   display: flex;
   align-items: center;
   padding: 0 16px;
+  position: sticky;
+  top: 0;
   z-index: 10;
 }
 
@@ -75,6 +76,7 @@ body {
   display: flex;
   flex: 1;
   height: calc(100vh - var(--header-height));
+  overflow: hidden;
 }
 
 /* Sidebar / Menu Lateral */
@@ -88,6 +90,7 @@ body {
   align-items: center;
   padding: 10px 0;
   transition: width 0.2s ease;
+  z-index: 5;
 }
 
 .menu-list {
@@ -200,12 +203,12 @@ body {
 [data-theme="light"] .moon-icon { display: block; }
 
 /* ==========================================================================
-   4. Área Principal de Conteúdo & Artigos de Teoria
+   4. Área Principal de Conteúdo (Rolagem Habilitada)
    ========================================================================== */
 .main-content {
   flex: 1;
   padding: 24px;
-  overflow-y: auto;
+  overflow-y: auto; /* Garante que qualquer tela longa consiga rolar */
   background-color: var(--bg-color);
 }
 
@@ -215,6 +218,7 @@ body {
   margin: 0 auto;
   line-height: 1.7;
   font-size: 1rem;
+  padding-bottom: 40px; /* Espaço no final para não colar no rodapé da página */
 }
 
 .theory-article h1 {
@@ -503,7 +507,7 @@ body {
 }
 
 /* ==========================================================================
-   8. Tela Inicial de Boas-Vindas com Ilustração SVG
+   8. Tela Inicial de Boas-Vindas com Ilustração SVG (Isolada)
    ========================================================================== */
 .welcome-container {
   position: relative;
@@ -514,7 +518,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  overflow: hidden;
+  overflow: hidden; /* Oculta transbordo apenas na tela inicial */
   border-radius: 12px;
 }
 

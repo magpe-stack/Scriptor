@@ -5,6 +5,7 @@
 
 const theoryExampleContent = `
 <article class="theory-article">
+<h1>Exemplo Prático</h1>
   <h1>Fase 1: Fundação e Conexão Autoral (Passos 1 a 4)</h1>
 
   <section>

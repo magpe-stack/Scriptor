@@ -1,5 +1,5 @@
 /* ==========================================================================
-   1. Variáveis e Temas (Claro e Escuro)
+   1. Variáveis Globais e Temas (Claro / Escuro)
    ========================================================================== */
 :root {
   /* Tema Escuro (Padrão) */
@@ -14,6 +14,8 @@
   --input-bg: #2a2a2a;
   --header-height: 60px;
   --sidebar-width: 240px;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="light"] {
@@ -27,9 +29,11 @@
   --primary-color: #257d0d;
   --primary-hover: #1e620a;
   --input-bg: #f0f2f5;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Base Global Reset */
+/* Reset e Base Global */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -39,7 +43,7 @@
 html, body {
   height: 100%;
   width: 100%;
-  overflow: hidden; /* Mantém o layout sem barra de rolagem dupla externa */
+  overflow: hidden;
 }
 
 body {
@@ -49,6 +53,7 @@ body {
   line-height: 1.6;
   display: flex;
   flex-direction: column;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ==========================================================================
@@ -73,6 +78,7 @@ body {
   font-weight: 700;
   font-size: 1.2rem;
   color: var(--text-color);
+  user-select: none;
 }
 
 .brand img.app-logo {
@@ -84,10 +90,12 @@ body {
   font-size: 1.3rem;
   color: var(--text-color);
   margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
 
 /* ==========================================================================
-   3. Estrutura Principal (app-container: Sidebar + Main Content Lado a Lado)
+   3. Estrutura Principal e Contêiner do App (app-container)
    ========================================================================== */
 .app-container {
   display: flex !important;
@@ -99,7 +107,7 @@ body {
 }
 
 /* ==========================================================================
-   4. Barra Lateral (Sidebar)
+   4. Barra Lateral de Navegação (Sidebar & Submenus)
    ========================================================================== */
 .sidebar {
   width: var(--sidebar-width);
@@ -113,9 +121,10 @@ body {
   overflow-y: auto;
   height: 100%;
   flex-shrink: 0;
+  z-index: 10;
 }
 
-.menu-list {
+.main-menu {
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -138,6 +147,7 @@ body {
   background: transparent;
   color: var(--text-muted);
   font-size: 0.95rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   width: 100%;
@@ -191,14 +201,14 @@ body {
   margin-top: 12px;
 }
 
-/* Ícones do Tema Claro / Escuro */
+/* Ícones de Alternância do Tema */
 [data-theme="dark"] .sun-icon { display: block; }
 [data-theme="dark"] .moon-icon { display: none; }
 [data-theme="light"] .sun-icon { display: none; }
 [data-theme="light"] .moon-icon { display: block; }
 
 /* ==========================================================================
-   5. Área Principal de Conteúdo (main-content)
+   5. Área Principal de Conteúdo e Artigos Teóricos (main-content)
    ========================================================================== */
 .main-content {
   flex: 1;
@@ -206,6 +216,7 @@ body {
   overflow-y: auto;
   height: 100%;
   width: calc(100% - var(--sidebar-width));
+  background-color: var(--bg-color);
 }
 
 .theory-article {
@@ -219,6 +230,8 @@ body {
 .theory-article h1 {
   font-size: 2rem;
   color: var(--primary-color);
+  font-weight: 800;
+  line-height: 1.2;
 }
 
 .theory-article h2 {
@@ -226,8 +239,25 @@ body {
   margin-top: 16px;
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 8px;
+  color: var(--text-color);
 }
 
+.theory-article p {
+  font-size: 1.02rem;
+  color: var(--text-color);
+  line-height: 1.7;
+}
+
+.theory-article ul, .theory-article ol {
+  padding-left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ==========================================================================
+   6. Cartões de Formulário e Entradas de Dados (Fases 1 a 4)
+   ========================================================================== */
 .project-form-card {
   background-color: var(--panel-bg);
   border: 1px solid var(--border-color);
@@ -236,7 +266,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
 }
 
 .form-label {
@@ -254,6 +284,7 @@ body {
   color: var(--text-color);
   font-size: 0.95rem;
   font-family: inherit;
+  transition: border-color 0.2s ease;
 }
 
 .form-input:focus, .form-textarea:focus {
@@ -269,9 +300,10 @@ body {
 .field-hint {
   font-size: 0.85rem;
   color: var(--text-muted);
+  line-height: 1.4;
 }
 
-/* Botões Globais */
+/* Botões de Ação Gerais */
 .primary-btn {
   background-color: var(--primary-color);
   color: #ffffff;
@@ -281,6 +313,10 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .primary-btn:hover {
@@ -294,10 +330,12 @@ body {
   padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
   font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
 }
 
 .card-ctrl-btn:hover {
@@ -305,7 +343,7 @@ body {
 }
 
 /* ==========================================================================
-   6. Roteiro (Roadmap / Timeline - Fase 5)
+   7. Roteiro / Timeline Cronológica (Fase 5)
    ========================================================================== */
 .roadmap-timeline {
   display: flex;
@@ -318,6 +356,7 @@ body {
   font-size: 1.15rem;
   color: var(--primary-color);
   margin: 0;
+  font-weight: 700;
 }
 
 .roadmap-badge {
@@ -326,6 +365,7 @@ body {
   border-radius: 12px;
   font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .badge-neutral {
@@ -356,7 +396,7 @@ body {
 }
 
 /* ==========================================================================
-   7. Editor de Rascunho de Escrita Focalizada (Rich Text)
+   8. Editor de Rascunho com Suporte Rich Text (WYSIWYG) e Modo Foco
    ========================================================================== */
 .editor-page-container {
   display: flex;
@@ -446,7 +486,7 @@ body {
   padding: 12px;
 }
 
-/* Área de Rich Text Editável */
+/* Caixa de Rich Text Editável */
 .scene-content-editor[contenteditable="true"] {
   min-height: 480px;
   overflow-y: auto;
@@ -491,7 +531,7 @@ body {
   padding: 0 4px;
 }
 
-/* Modo Foco Limpo */
+/* Modo Foco Otimizado */
 .focus-mode-active .editor-main-area {
   max-width: 800px;
   margin: 0 auto;
@@ -515,7 +555,7 @@ body {
 }
 
 /* ==========================================================================
-   8. Tela Inicial de Boas-Vindas com Ilustração SVG
+   9. Ecrã de Boas-Vindas e Ilustração SVG
    ========================================================================== */
 .welcome-container {
   position: relative;
@@ -583,4 +623,69 @@ body {
   object-position: center;
   z-index: 1;
   opacity: 0.85;
+}
+
+/* ==========================================================================
+   10. Barras de Rolagem Customizadas (Scrollbars)
+   ========================================================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ==========================================================================
+   11. Responsividade em Telas Menores
+   ========================================================================== */
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column !important;
+    height: auto;
+    overflow-y: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px;
+  }
+
+  .main-content {
+    width: 100%;
+    padding: 16px;
+    height: auto;
+    overflow-y: visible;
+  }
+
+  .editor-workspace {
+    flex-direction: column;
+  }
+
+  .editor-scene-card-panel {
+    width: 100%;
+  }
+
+  .editor-toolbar-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .editor-tools-row {
+    justify-content: center;
+  }
 }

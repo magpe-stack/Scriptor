@@ -6,6 +6,7 @@ const ASSETS = [
   './app.js',
   './theory-pt.js',
   './theory-storygenius.js',
+  './theory-steps.js',
   './manifest.json',
   './logo.svg',
   './icon-192.png',

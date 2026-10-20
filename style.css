@@ -180,7 +180,7 @@ body {
   height: 18px;
 }
 
-/* Badges de Formato (JSON, MD, TXT, DOCX) */
+/* Badges de Formato */
 .badge {
   font-size: 0.6rem;
   font-weight: 800;
@@ -333,12 +333,8 @@ body {
   transform: translateY(-1px);
 }
 
-.buy-btn:active {
-  transform: translateY(0);
-}
-
 /* ==========================================================================
-   6. Flashcards de Dicas (200 Dicas)
+   6. Flashcards de Dicas
    ========================================================================== */
 .flashcard-container {
   background-color: var(--surface-color);
@@ -379,12 +375,6 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-.copy-btn:hover {
-  background-color: var(--surface-hover);
-  border-color: var(--primary-color);
 }
 
 .flashcard-body {
@@ -426,23 +416,13 @@ body {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.card-ctrl-btn svg {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
-}
-
 .card-ctrl-btn:hover {
   background-color: var(--primary-color);
   color: #ffffff;
 }
 
-.card-ctrl-btn.random-btn {
-  border-color: var(--primary-color);
-}
-
 /* ==========================================================================
-   7. Formulários de Projetos, Ações e Fases
+   7. Formulários e Caixas de Entrada
    ========================================================================== */
 .project-form-card {
   background-color: var(--surface-color);
@@ -479,12 +459,6 @@ body {
   box-shadow: 0 0 0 2px rgba(37, 125, 13, 0.25);
 }
 
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 8px;
-}
-
 .primary-btn {
   background-color: var(--primary-color);
   color: #ffffff;
@@ -494,28 +468,11 @@ body {
   font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: background-color 0.2s ease;
 }
 
 .primary-btn:hover {
   background-color: #1e620a;
-  transform: translateY(-1px);
-}
-
-.primary-btn:active {
-  transform: translateY(0);
-}
-
-.phase-section {
-  margin-bottom: 32px;
-}
-
-.phase-section h2 {
-  font-size: 1.4rem;
-  color: var(--primary-color);
-  margin-bottom: 16px;
-  border-bottom: 1px dashed var(--border-color);
-  padding-bottom: 6px;
 }
 
 .field-hint {
@@ -548,7 +505,7 @@ body {
 }
 
 /* ==========================================================================
-   8. Tela Inicial de Boas-Vindas com Ilustração SVG (Isolada)
+   8. Tela de Boas-Vindas
    ========================================================================== */
 .welcome-container {
   position: relative;
@@ -575,21 +532,6 @@ body {
   max-width: 600px;
 }
 
-[data-theme="light"] .welcome-overlay {
-  background-color: rgba(255, 255, 255, 0.85);
-}
-
-.welcome-overlay h2 {
-  color: var(--primary-color);
-  font-size: 1.8rem;
-  margin-bottom: 6px;
-}
-
-.welcome-overlay p {
-  color: var(--text-color);
-  font-size: 1rem;
-}
-
 .welcome-illustration {
   position: absolute;
   top: 0;
@@ -597,13 +539,12 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
   z-index: 1;
   opacity: 0.85;
 }
 
 /* ==========================================================================
-   9. Estilos da Fase 5 - Roteiro (Timeline & Badges)
+   9. Timeline do Roteiro (Fase 5)
    ========================================================================== */
 .roadmap-timeline {
   position: relative;
@@ -613,7 +554,6 @@ body {
   gap: 20px;
 }
 
-/* Linha vertical contínua da Timeline */
 .roadmap-timeline::before {
   content: '';
   position: absolute;
@@ -628,7 +568,6 @@ body {
   position: relative;
 }
 
-/* Círculo da Timeline */
 .timeline-node {
   position: absolute;
   left: -28px;
@@ -639,61 +578,21 @@ body {
   background-color: var(--bg-color);
   border: 3px solid var(--border-color);
   z-index: 2;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.timeline-item:hover .timeline-node {
-  border-color: var(--primary-color);
-  background-color: var(--primary-color);
-}
-
-.timeline-content {
-  margin-top: 0 !important;
-}
-
-.roadmap-scene-title {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text-color);
-  margin: 0;
-}
-
-/* Badges de Status */
 .roadmap-badge {
   font-size: 0.72rem;
   font-weight: 700;
   padding: 4px 10px;
   border-radius: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
-.badge-success {
-  background-color: rgba(37, 125, 13, 0.15);
-  color: #4caf50;
-  border: 1px solid #4caf50;
-}
+.badge-success { background-color: rgba(37, 125, 13, 0.15); color: #4caf50; border: 1px solid #4caf50; }
+.badge-warning { background-color: rgba(255, 152, 0, 0.15); color: #ff9800; border: 1px solid #ff9800; }
+.badge-info { background-color: rgba(33, 150, 243, 0.15); color: #2196f3; border: 1px solid #2196f3; }
+.badge-neutral { background-color: var(--surface-hover); color: var(--text-color); border: 1px solid var(--border-color); opacity: 0.7; }
 
-.badge-warning {
-  background-color: rgba(255, 152, 0, 0.15);
-  color: #ff9800;
-  border: 1px solid #ff9800;
-}
-
-.badge-info {
-  background-color: rgba(33, 150, 243, 0.15);
-  color: #2196f3;
-  border: 1px solid #2196f3;
-}
-
-.badge-neutral {
-  background-color: var(--surface-hover);
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-  opacity: 0.7;
-}
-
-/* Labels Mínimos (ALFA e E POR ISSO?) */
 .roadmap-label {
   font-size: 0.72rem;
   font-weight: 800;
@@ -711,12 +610,62 @@ body {
 }
 
 /* ==========================================================================
-   10. Estilos do Editor de Escrita Focalizada & Modo Foco
+   10. Estilos Expandidos do Editor de Cenas & Modo Foco Amplo
    ========================================================================== */
+.editor-page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 40px;
+}
+
+.editor-toolbar-card {
+  padding: 14px 18px;
+  margin-top: 0 !important;
+}
+
+.editor-selector-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.editor-select {
+  flex: 1;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.editor-icon-btn {
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
+}
+
+.editor-tools-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+  padding-top: 12px;
+}
+
+.editor-divider {
+  width: 1px;
+  height: 24px;
+  background-color: var(--border-color);
+  margin: 0 4px;
+}
+
 .editor-workspace {
   display: flex;
-  gap: 20px;
+  gap: 24px;
   align-items: flex-start;
+  width: 100%;
 }
 
 .editor-workspace.card-hidden {
@@ -724,8 +673,8 @@ body {
 }
 
 .editor-scene-card-panel {
-  width: 300px;
-  min-width: 300px;
+  width: 320px;
+  min-width: 320px;
   background-color: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 12px;
@@ -733,8 +682,17 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-height: 75vh;
+  max-height: 78vh;
   overflow-y: auto;
+  margin-top: 0 !important;
+}
+
+.scene-card-title {
+  font-size: 1.05rem;
+  color: var(--primary-color);
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 6px;
 }
 
 .scene-card-field {
@@ -744,38 +702,76 @@ body {
   border: 1px solid var(--border-color);
 }
 
-.scene-card-field .roadmap-label {
-  font-size: 0.65rem;
-  margin-bottom: 2px;
+.editor-main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
 }
 
-.scene-card-field .field-hint {
-  font-size: 0.85rem !important;
-  margin-bottom: 0 !important;
-  opacity: 0.9;
+.scene-title-editor {
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 14px 18px;
 }
 
-/* Estilo do Modo Foco */
-.focus-mode-active .app-header,
-.focus-mode-active .sidebar,
-.focus-mode-active .editor-top-bar {
-  display: none !important;
+.scene-content-editor {
+  min-height: 480px;
+  font-size: 1.08rem;
+  line-height: 1.7;
+  padding: 18px;
+  font-family: inherit;
 }
 
-.focus-mode-active .app-container {
-  height: 100vh !important;
+.editor-counters {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  opacity: 0.75;
+  padding: 0 4px;
 }
 
-.focus-mode-active .main-content {
-  padding: 40px !important;
-  max-width: 900px;
+/* Modo Foco Amplo e Limpo */
+.focus-mode-active {
+  max-width: 900px !important;
   margin: 0 auto;
 }
 
-/* ==========================================================================
-   11. Responsividade em Telas Menores
-   ========================================================================== */
-@media (max-width: 768px) {
+body:has(.focus-mode-active) .app-header,
+body:has(.focus-mode-active) .sidebar {
+  display: none !important;
+}
+
+body:has(.focus-mode-active) .app-container {
+  height: 100vh !important;
+}
+
+body:has(.focus-mode-active) .main-content {
+  padding: 32px 24px !important;
+}
+
+.exit-focus-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.exit-focus-btn {
+  background-color: var(--surface-hover);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  font-size: 0.85rem;
+  padding: 6px 16px;
+}
+
+.exit-focus-btn:hover {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+
+/* Responsividade */
+@media (max-width: 850px) {
   .editor-workspace {
     flex-direction: column;
   }
@@ -783,23 +779,5 @@ body {
     width: 100%;
     min-width: 100%;
     max-height: 300px;
-  }
-}
-
-@media (max-width: 600px) {
-  .book-card {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .book-cover {
-    width: 90px;
-  }
-  .flashcard-controls {
-    flex-direction: column;
-    width: 100%;
-  }
-  .card-ctrl-btn {
-    width: 100%;
-    justify-content: center;
   }
 }

@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initMenu();
   initPWA();
   initBrandClick();
-  // Carrega projeto salvo anteriormente no localStorage
   loadLocalProject();
 });
 
@@ -69,7 +68,7 @@ function initBrandClick() {
 }
 
 /* ==========================================================================
-   3. Renderização da Tela "Novo Projeto" e "Boas-Vindas"
+   3. Renderização de Telas "Home" e "Novo Projeto"
    ========================================================================== */
 function renderWelcomeView() {
   return `
@@ -124,11 +123,8 @@ function initNewProjectEvents() {
       return;
     }
 
-    // Grava o título no estado global
     projectState.title = inputVal;
     saveLocalProject();
-
-    // Redireciona para a Fase 1
     navigateToRoute('phase1');
   });
 
@@ -145,7 +141,6 @@ function initNewProjectEvents() {
 function navigateToRoute(route) {
   const mainView = document.getElementById('app-view');
 
-  // Atualiza botão ativo na barra de navegação
   document.querySelectorAll('.icon-btn').forEach(b => b.classList.remove('active'));
   const activeBtn = document.querySelector(`.icon-btn[data-route="${route}"]`);
   if (activeBtn) activeBtn.classList.add('active');
@@ -156,13 +151,10 @@ function navigateToRoute(route) {
     mainView.innerHTML = renderNewProjectView();
     initNewProjectEvents();
   } else if (route === 'phase1') {
-    mainView.innerHTML = `
-      <article class="theory-article">
-        <h1>Fase 1: Fundação e Conexão Autoral</h1>
-        <p><strong>Projeto:</strong> ${projectState.title || 'Sem título'}</p>
-        <p>Formulário da Fase 1 em desenvolvimento...</p>
-      </article>
-    `;
+    if (typeof renderPhase1View !== 'undefined') {
+      mainView.innerHTML = renderPhase1View();
+      initPhase1Events();
+    }
   } else if (route === 'theory-pt') {
     if (typeof theoryPtContent !== 'undefined') mainView.innerHTML = theoryPtContent;
   } else if (route === 'theory-storygenius') {
@@ -201,7 +193,6 @@ function initMenu() {
     });
   });
 
-  // Listener dos botões do menu lateral
   document.querySelectorAll('.icon-btn[data-route], .icon-btn[data-action], .icon-btn[data-export], .icon-btn[data-import]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const target = e.currentTarget;
@@ -277,13 +268,23 @@ function exportProject(format) {
   }
 
   const filename = `${projectState.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}_scriptor`;
+  const p1 = projectState.phase1 || {};
 
   if (format === 'json') {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(projectState, null, 2));
     downloadFile(dataStr, `${filename}.json`);
   } else if (format === 'md' || format === 'txt') {
     let content = `# ${projectState.title}\n\n`;
-    content += `## Fase 1: Fundação e Conexão Autoral\n\n(A preencher)\n\n`;
+    content += `## Fase 1: Fundação e Conexão Autoral\n\n`;
+    content += `### 1. A Primeira Fagulha\n${p1.fagulha || '(Vazio)'}\n\n`;
+    content += `### 2. Por Que Você Se Importa?\n${p1.motivacao || '(Vazio)'}\n\n`;
+    content += `### 3. O Ponto Central\n${p1.pontoCentral || '(Vazio)'}\n\n`;
+    content += `### 4. A Premissa "E Se?"\n${p1.premissa || '(Vazio)'}\n\n`;
+    content += `### 5. Leitor Ideal\n${p1.leitorIdeal || '(Vazio)'}\n\n`;
+    content += `### 6. Sinopse de Contracapa\n${p1.sinopse || '(Vazio)'}\n\n`;
+    content += `### 7. Livros Comparáveis\n${p1.comps || '(Vazio)'}\n\n`;
+    content += `### 8. Promessa de Entretenimento e Gênero\n${p1.promessa || '(Vazio)'}\n\n`;
+
     content += `## Fase 2: Arquitetura Psicológica\n\n(A preencher)\n\n`;
     content += `## Fase 3: Enredo Causal\n\n(A preencher)\n\n`;
     content += `## Fase 4: Cartões de Cena\n\n(A preencher)\n\n`;

@@ -72,7 +72,7 @@ function renderNewProjectView() {
           type="text" 
           id="project-title-input" 
           class="form-input" 
-          placeholder="(Título do projeto)" 
+          placeholder="Título do projeto" 
           value="${projectState.title || ''}"
           autocomplete="off"
         />

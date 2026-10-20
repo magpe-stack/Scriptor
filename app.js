@@ -80,6 +80,11 @@ function initMenu() {
         if (typeof theoryExampleContent !== 'undefined') {
           mainView.innerHTML = theoryExampleContent;
         }
+      } else if (target.dataset.route === 'theory-tips') {
+        if (typeof renderTipsView !== 'undefined') {
+          mainView.innerHTML = renderTipsView();
+          initTipsEvents();
+        }
       } else if (target.dataset.route) {
         mainView.innerHTML = `<h2>Conteúdo da rota: ${target.dataset.route}</h2><p>Página em desenvolvimento.</p>`;
       }

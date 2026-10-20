@@ -163,6 +163,11 @@ function navigateToRoute(route) {
   } else if (route === 'new') {
     mainView.innerHTML = renderNewProjectView();
     initNewProjectEvents();
+  } else if (route === 'dashboard') {
+    if (typeof renderDashboardView !== 'undefined') {
+      mainView.innerHTML = renderDashboardView();
+      initDashboardEvents();
+    }
   } else if (route === 'phase1') {
     if (typeof renderPhase1View !== 'undefined') {
       mainView.innerHTML = renderPhase1View();

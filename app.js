@@ -81,7 +81,7 @@ function initBrandClick() {
 }
 
 /* ==========================================================================
-   3. Renderização de Ecrãs "Home", "Novo Projeto" e Reset de Cache
+   3. Renderização de Ecrãs "Home", "Novo / Configurar Projeto" e Reset de Cache
    ========================================================================== */
 function renderWelcomeView() {
   return `
@@ -98,31 +98,32 @@ function renderWelcomeView() {
 function renderNewProjectView() {
   return `
     <article class="theory-article">
-      <h1>Novo Projeto de Romance</h1>
-      <p>Informe o título do seu novo livro para iniciar uma nova estrutura do zero, ou utilize a opção de reset para apagar todo o cache do navegador.</p>
+      <h1>Configuração e Título do Projeto</h1>
+      <p>Defina ou atualize o título do seu livro. Os seus dados e progresso serão mantidos até que decida resetar a aplicação.</p>
 
       <div class="project-form-card">
-        <label for="project-title-input" class="form-label">Título do Novo Romance</label>
+        <label for="project-title-input" class="form-label">Título do Romance</label>
         <input 
           type="text" 
           id="project-title-input" 
           class="form-input" 
-          placeholder="Digite o título do seu novo livro..." 
+          placeholder="Digite o título do seu livro..." 
+          value="${projectState.title || ''}"
           autocomplete="off"
         />
         
         <div class="form-actions" style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 12px;">
           <button id="start-project-btn" class="primary-btn">
-            Iniciar Novo Projeto
+            ${projectState.title ? 'Salvar Título e Continuar' : 'Iniciar Projeto'}
           </button>
         </div>
       </div>
 
-      <!-- Ação Crítica: Limpar Cache e Dados Armazenados -->
+      <!-- Ação Crítica Exclusiva: Limpar Cache e Apagar Dados -->
       <div class="project-form-card" style="border-color: rgba(255, 87, 34, 0.4); margin-top: 24px;">
-        <h3 style="margin: 0; font-size: 1.05rem; color: #ff5722;">Limpar Cache e Resetar Dados</h3>
+        <h3 style="margin: 0; font-size: 1.05rem; color: #ff5722;">Reset Completo da Aplicação</h3>
         <p class="field-hint" style="margin-bottom: 12px !important;">
-          Caso queira apagar completamente o projeto atual e reiniciar todo o cache do aplicativo no seu navegador, clique no botão abaixo.
+          Para apagar definitivamente todos os dados do projeto atual salvos no navegador e restaurar o Scriptor do zero, utilize o botão abaixo.
         </p>
         <div>
           <button id="clear-cache-btn" class="card-ctrl-btn" style="border-color: #ff5722; color: #ff5722; cursor: pointer;">
@@ -144,31 +145,15 @@ function initNewProjectEvents() {
     startBtn.addEventListener('click', () => {
       const inputVal = titleInput.value.trim();
       if (!inputVal) {
-        alert('Por favor, digite o título do novo projeto antes de iniciar.');
+        alert('Por favor, digite o título do projeto.');
         titleInput.focus();
         return;
       }
 
-      // Reinicialização completa da estrutura de dados
-      projectState = {
-        title: inputVal,
-        phase1: {},
-        phase2: {},
-        phase3: {
-          problemaExterno: {},
-          conflitosSecundarios: [],
-          pontosDeVirada: [],
-          personagensApoio: []
-        },
-        phase4: [],
-        phase5: [],
-        sceneDrafts: {},
-        currentWritingSceneId: null,
-        editorDraft: ""
-      };
+      // Mantém todos os dados existentes e atualiza apenas o título
+      projectState.title = inputVal;
 
       saveLocalProject();
-      alert(`Novo projeto "${inputVal}" criado com sucesso!`);
       navigateToRoute('phase1');
     });
   }
@@ -181,9 +166,10 @@ function initNewProjectEvents() {
     });
   }
 
+  // A limpeza só acontece ao clicar explicitamente neste botão
   if (clearCacheBtn) {
     clearCacheBtn.addEventListener('click', () => {
-      if (confirm('Deseja realmente apagar todos os dados do projeto atual e resetar a aplicação?')) {
+      if (confirm('Tem a certeza de que deseja APAGAR TODOS OS DADOS do projeto e resetar a aplicação? Esta ação não pode ser desfeita.')) {
         localStorage.removeItem('scriptor_current_project');
 
         if ('serviceWorker' in navigator) {
@@ -202,7 +188,7 @@ function initNewProjectEvents() {
           });
         }
 
-        alert('Aplicação resetada com sucesso!');
+        alert('Aplicação e dados resetados com sucesso!');
         window.location.reload(true);
       }
     });

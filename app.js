@@ -13,7 +13,7 @@ let projectState = {
     pontosDeVirada: [],
     personagensApoio: []
   },
-  phase4: [],
+  phase4: [], // Array de Cartões de Cena
   phase5: [],
   editorDraft: ""
 };
@@ -38,6 +38,9 @@ function loadLocalProject() {
   if (saved) {
     try {
       projectState = JSON.parse(saved);
+      if (!Array.isArray(projectState.phase4)) {
+        projectState.phase4 = [];
+      }
     } catch (e) {
       console.error('Erro ao carregar projeto local:', e);
     }
@@ -170,6 +173,11 @@ function navigateToRoute(route) {
       mainView.innerHTML = renderPhase3View();
       initPhase3Events();
     }
+  } else if (route === 'phase4') {
+    if (typeof renderPhase4View !== 'undefined') {
+      mainView.innerHTML = renderPhase4View();
+      initPhase4Events();
+    }
   } else if (route === 'theory-pt') {
     if (typeof theoryPtContent !== 'undefined') mainView.innerHTML = theoryPtContent;
   } else if (route === 'theory-storygenius') {
@@ -254,6 +262,9 @@ function importJsonProject() {
 
         if (importedData && typeof importedData === 'object' && importedData.title) {
           projectState = importedData;
+          if (!Array.isArray(projectState.phase4)) {
+            projectState.phase4 = [];
+          }
           saveLocalProject();
           alert(`Projeto "${projectState.title}" carregado com sucesso!`);
           
@@ -363,7 +374,22 @@ function exportProject(format) {
       content += `(Nenhum personagem de apoio cadastrado)\n\n`;
     }
 
-    content += `## Fase 4: Cartões de Cena\n\n(A preencher)\n\n`;
+    // Fase 4
+    content += `## Fase 4: Cartões de Cena\n\n`;
+    if (Array.isArray(projectState.phase4) && projectState.phase4.length > 0) {
+      projectState.phase4.forEach((sc, i) => {
+        content += `### Cena #${i+1}: ${sc.titulo || '(Sem título)'}\n`;
+        content += `* **Ponto Alfa:** ${sc.pontoAlfa || '(Vazio)'}\n`;
+        content += `* **Causa (Ação):** ${sc.enredoCausa || '(Vazio)'}\n`;
+        content += `* **Efeito (Consequência):** ${sc.enredoEfeito || '(Vazio)'}\n`;
+        content += `* **Terceiro Trilho (Significado):** ${sc.terceiroTrilhoImporta || '(Vazio)'}\n`;
+        content += `* **Terceiro Trilho (Realização):** ${sc.terceiroTrilhoRealizacao || '(Vazio)'}\n`;
+        content += `* **E Por Isso? (Próxima decisão):** ${sc.ePorIsso || '(Vazio)'}\n\n`;
+      });
+    } else {
+      content += `(Nenhum cartão de cena cadastrado)\n\n`;
+    }
+
     content += `## Fase 5: Roteiro (Roadmap)\n\n(A preencher)\n\n`;
     content += `## Rascunho Final\n\n${projectState.editorDraft || '(Vazio)'}\n`;
 

@@ -603,7 +603,115 @@ body {
 }
 
 /* ==========================================================================
-   9. Responsividade em Telas Menores
+   9. Estilos da Fase 5 - Roteiro (Timeline & Badges)
+   ========================================================================== */
+.roadmap-timeline {
+  position: relative;
+  padding-left: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Linha vertical contínua da Timeline */
+.roadmap-timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  background-color: var(--border-color);
+}
+
+.timeline-item {
+  position: relative;
+}
+
+/* Círculo da Timeline */
+.timeline-node {
+  position: absolute;
+  left: -28px;
+  top: 20px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--bg-color);
+  border: 3px solid var(--border-color);
+  z-index: 2;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.timeline-item:hover .timeline-node {
+  border-color: var(--primary-color);
+  background-color: var(--primary-color);
+}
+
+.timeline-content {
+  margin-top: 0 !important;
+}
+
+.roadmap-scene-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+}
+
+/* Badges de Status */
+.roadmap-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-success {
+  background-color: rgba(37, 125, 13, 0.15);
+  color: #4caf50;
+  border: 1px solid #4caf50;
+}
+
+.badge-warning {
+  background-color: rgba(255, 152, 0, 0.15);
+  color: #ff9800;
+  border: 1px solid #ff9800;
+}
+
+.badge-info {
+  background-color: rgba(33, 150, 243, 0.15);
+  color: #2196f3;
+  border: 1px solid #2196f3;
+}
+
+.badge-neutral {
+  background-color: var(--surface-hover);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  opacity: 0.7;
+}
+
+/* Labels Mínimos (ALFA e E POR ISSO?) */
+.roadmap-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  letter-spacing: 0.8px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.roadmap-text {
+  font-size: 0.95rem !important;
+  line-height: 1.5 !important;
+  margin-bottom: 0 !important;
+  text-align: left !important;
+}
+
+/* ==========================================================================
+   10. Responsividade em Telas Menores
    ========================================================================== */
 @media (max-width: 600px) {
   .book-card {

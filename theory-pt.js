@@ -5,6 +5,7 @@
 
 const theoryPtContent = `
 <article class="theory-article">
+ <h1>Língua Portuguesa para Romancistas</h1>
   <h1>História da Língua Portuguesa</h1>
   <p>A língua portuguesa é românica e surgiu da transformação do latim falado no noroeste da Península Ibérica, em contato com línguas anteriores à romanização e, mais tarde, com influências germânicas e árabes. Na Idade Média, galego e português formavam o galego-português, usado em documentos e na poesia trovadoresca. A separação entre os dois idiomas avançou gradualmente, enquanto o português se consolidava no território do reino de Portugal. A expansão marítima levou-o à América, à África e à Ásia, onde surgiram novas variedades. Entre romancistas de grande projeção que escrevem em português estão Machado de Assis, José Saramago, vencedor do Nobel de 1998, e Mia Couto, laureado com o Prêmio Camões de 2013.</p>
 

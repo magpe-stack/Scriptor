@@ -209,7 +209,7 @@ body {
   background-color: var(--bg-color);
 }
 
-/* Estilização dos Artigos de Teoria */
+/* Estilização dos Artigos de Teoria e Hierarquia de Títulos */
 .theory-article {
   max-width: 800px;
   margin: 0 auto;
@@ -220,23 +220,44 @@ body {
 .theory-article h1 {
   font-size: 1.8rem;
   color: var(--primary-color);
+  margin-top: 32px;
   margin-bottom: 16px;
   border-bottom: 2px solid var(--border-color);
   padding-bottom: 8px;
 }
 
+.theory-article h1:first-child {
+  margin-top: 0;
+}
+
 .theory-article h2 {
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   color: var(--primary-color);
-  margin-top: 28px;
+  margin-top: 24px;
   margin-bottom: 10px;
 }
 
+.theory-article h3 {
+  font-size: 1.15rem;
+  color: var(--text-color);
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.theory-article h4 {
+  font-size: 1rem;
+  color: var(--primary-color);
+  margin-top: 16px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
 .theory-article p {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   text-align: justify;
 }
 
 .theory-article section {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }

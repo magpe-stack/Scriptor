@@ -503,7 +503,59 @@ body {
 }
 
 /* ==========================================================================
-   8. Responsividade em Telas Menores
+   8. Tela Inicial de Boas-Vindas com Ilustração e Fundo Verde
+   ========================================================================== */
+.welcome-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: calc(100vh - var(--header-height) - 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: var(--primary-color); /* Fundo verde em toda a tela */
+}
+
+.welcome-overlay {
+  z-index: 2;
+  text-align: center;
+  padding: 16px 24px;
+  background-color: rgba(0, 0, 0, 0.4); /* Leve sombra para legibilidade */
+  backdrop-filter: blur(4px);
+  border-radius: 12px;
+  margin-top: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 600px;
+}
+
+.welcome-overlay h2 {
+  color: #ffffff !important; /* Cor branca para o título */
+  font-size: 1.8rem;
+  margin-bottom: 6px;
+}
+
+.welcome-overlay p {
+  color: #ffffff !important; /* Cor branca para a descrição */
+  font-size: 1rem;
+}
+
+.welcome-illustration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   9. Responsividade em Telas Menores
    ========================================================================== */
 @media (max-width: 600px) {
   .book-card {
@@ -521,59 +573,4 @@ body {
     width: 100%;
     justify-content: center;
   }
-
-   /* ==========================================================================
-   Tela Inicial de Boas-Vindas com Ilustração SVG
-   ========================================================================== */
-.welcome-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: calc(100vh - var(--header-height) - 48px);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  overflow: hidden;
-  border-radius: 12px;
-}
-
-.welcome-overlay {
-  z-index: 2;
-  text-align: center;
-  padding: 16px 24px;
-  background-color: rgba(18, 18, 18, 0.75);
-  backdrop-filter: blur(8px);
-  border-radius: 12px;
-  margin-top: 20px;
-  border: 1px solid var(--border-color);
-  max-width: 600px;
-}
-
-[data-theme="light"] .welcome-overlay {
-  background-color: rgba(255, 255, 255, 0.85);
-}
-
-.welcome-overlay h2 {
-  color: var(--primary-color);
-  font-size: 1.8rem;
-  margin-bottom: 6px;
-}
-
-.welcome-overlay p {
-  color: var(--text-color);
-  font-size: 1rem;
-}
-
-.welcome-illustration {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  z-index: 1;
-  opacity: 0.85;
-}
 }

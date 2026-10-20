@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initMenu();
   initPWA();
-  // Carrega projeto salvo anteriormente se existir no localStorage
+  // Carrega projeto salvo anteriormente no localStorage
   loadLocalProject();
 });
 
@@ -197,8 +197,8 @@ function initMenu() {
         return;
       }
 
-      if (target.dataset.import) {
-        console.log('Importar projeto:', target.dataset.import);
+      if (target.dataset.import === 'json') {
+        importJsonProject();
         return;
       }
     });
@@ -206,7 +206,45 @@ function initMenu() {
 }
 
 /* ==========================================================================
-   5. Exportação Semântica Ordenada
+   5. Carregar / Importar Projeto de Arquivo JSON
+   ========================================================================== */
+function importJsonProject() {
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = '.json,application/json';
+
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const importedData = JSON.parse(event.target.result);
+
+        if (importedData && typeof importedData === 'object' && importedData.title) {
+          projectState = importedData;
+          saveLocalProject();
+          alert(`Projeto "${projectState.title}" carregado com sucesso!`);
+          
+          navigateToRoute('phase1');
+        } else {
+          alert('O arquivo JSON selecionado é inválido ou não possui o formato de projeto do Scriptor.');
+        }
+      } catch (err) {
+        console.error('Erro ao ler arquivo JSON:', err);
+        alert('Erro ao abrir o arquivo. Certifique-se de que é um JSON válido.');
+      }
+    };
+
+    reader.readAsText(file);
+  });
+
+  fileInput.click();
+}
+
+/* ==========================================================================
+   6. Exportação Semântica Ordenada
    ========================================================================== */
 function exportProject(format) {
   if (!projectState.title) {
@@ -246,7 +284,7 @@ function downloadFile(dataStr, fileName) {
 }
 
 /* ==========================================================================
-   6. Registro do Service Worker (PWA)
+   7. Registro do Service Worker (PWA)
    ========================================================================== */
 function initPWA() {
   if ('serviceWorker' in navigator) {

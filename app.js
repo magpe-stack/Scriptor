@@ -72,6 +72,10 @@ function initMenu() {
         if (typeof theoryStoryGeniusContent !== 'undefined') {
           mainView.innerHTML = theoryStoryGeniusContent;
         }
+      } else if (target.dataset.route === 'theory-steps') {
+        if (typeof theoryStepsContent !== 'undefined') {
+          mainView.innerHTML = theoryStepsContent;
+        }
       } else if (target.dataset.route) {
         mainView.innerHTML = `<h2>Conteúdo da rota: ${target.dataset.route}</h2><p>Página em desenvolvimento.</p>`;
       }

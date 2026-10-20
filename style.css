@@ -29,7 +29,7 @@
   --input-bg: #f0f2f5;
 }
 
-/* Base Global */
+/* Base Global Reset */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -39,6 +39,7 @@
 html, body {
   height: 100%;
   width: 100%;
+  overflow: hidden; /* Mantém o layout sem barra de rolagem dupla externa */
 }
 
 body {
@@ -48,13 +49,12 @@ body {
   line-height: 1.6;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Evita rolagem dupla na janela principal */
 }
 
 /* ==========================================================================
-   2. Layout da Aplicação e Barra Superior
+   2. Cabeçalho Superior (app-header)
    ========================================================================== */
-.header-bar {
+.app-header {
   height: var(--header-height);
   background-color: var(--panel-bg);
   border-bottom: 1px solid var(--border-color);
@@ -75,29 +75,31 @@ body {
   color: var(--text-color);
 }
 
-.brand img {
+.brand img.app-logo {
   height: 32px;
   width: auto;
 }
 
-.header-controls {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.app-title {
+  font-size: 1.3rem;
+  color: var(--text-color);
+  margin: 0;
 }
 
-/* Estrutura de Lado a Lado Obrigatória */
-.app-layout {
+/* ==========================================================================
+   3. Estrutura Principal (app-container: Sidebar + Main Content Lado a Lado)
+   ========================================================================== */
+.app-container {
   display: flex !important;
   flex-direction: row !important;
   flex: 1;
   height: calc(100vh - var(--header-height));
-  overflow: hidden;
   width: 100%;
+  overflow: hidden;
 }
 
 /* ==========================================================================
-   3. Menu Lateral (Sidebar)
+   4. Barra Lateral (Sidebar)
    ========================================================================== */
 .sidebar {
   width: var(--sidebar-width);
@@ -106,11 +108,18 @@ body {
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   padding: 16px 8px;
-  gap: 4px;
   overflow-y: auto;
   height: 100%;
   flex-shrink: 0;
+}
+
+.menu-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .menu-item {
@@ -152,10 +161,12 @@ body {
   flex-shrink: 0;
 }
 
+/* Submenus Expandíveis */
 .submenu {
   display: none;
+  list-style: none;
   flex-direction: column;
-  padding-left: 28px;
+  padding-left: 20px;
   gap: 2px;
   margin-top: 2px;
 }
@@ -164,8 +175,30 @@ body {
   display: flex;
 }
 
+.badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--primary-color);
+  border: 1px solid var(--border-color);
+}
+
+.sidebar-footer {
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+  margin-top: 12px;
+}
+
+/* Ícones do Tema Claro / Escuro */
+[data-theme="dark"] .sun-icon { display: block; }
+[data-theme="dark"] .moon-icon { display: none; }
+[data-theme="light"] .sun-icon { display: none; }
+[data-theme="light"] .moon-icon { display: block; }
+
 /* ==========================================================================
-   4. Área Principal de Conteúdo
+   5. Área Principal de Conteúdo (main-content)
    ========================================================================== */
 .main-content {
   flex: 1;
@@ -272,7 +305,7 @@ body {
 }
 
 /* ==========================================================================
-   5. Roteiro (Roadmap / Timeline - Fase 5)
+   6. Roteiro (Roadmap / Timeline - Fase 5)
    ========================================================================== */
 .roadmap-timeline {
   display: flex;
@@ -323,7 +356,7 @@ body {
 }
 
 /* ==========================================================================
-   6. Editor de Rascunho de Escrita Focalizada (Rich Text)
+   7. Editor de Rascunho de Escrita Focalizada (Rich Text)
    ========================================================================== */
 .editor-page-container {
   display: flex;
@@ -482,7 +515,7 @@ body {
 }
 
 /* ==========================================================================
-   7. Tela Inicial de Boas-Vindas com Ilustração SVG
+   8. Tela Inicial de Boas-Vindas com Ilustração SVG
    ========================================================================== */
 .welcome-container {
   position: relative;

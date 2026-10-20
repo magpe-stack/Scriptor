@@ -15,6 +15,8 @@ let projectState = {
   },
   phase4: [], // Array de Cartões de Cena
   phase5: [],
+  sceneDrafts: {}, // Guardador individual dos rascunhos por id de cena
+  currentWritingSceneId: null,
   editorDraft: ""
 };
 
@@ -40,6 +42,9 @@ function loadLocalProject() {
       projectState = JSON.parse(saved);
       if (!Array.isArray(projectState.phase4)) {
         projectState.phase4 = [];
+      }
+      if (!projectState.sceneDrafts) {
+        projectState.sceneDrafts = {};
       }
     } catch (e) {
       console.error('Erro ao carregar projeto local:', e);
@@ -178,6 +183,11 @@ function navigateToRoute(route) {
       mainView.innerHTML = renderPhase4View();
       initPhase4Events();
     }
+  } else if (route === 'phase5') {
+    if (typeof renderPhase5View !== 'undefined') {
+      mainView.innerHTML = renderPhase5View();
+      initPhase5Events();
+    }
   } else if (route === 'theory-pt') {
     if (typeof theoryPtContent !== 'undefined') mainView.innerHTML = theoryPtContent;
   } else if (route === 'theory-storygenius') {
@@ -264,6 +274,9 @@ function importJsonProject() {
           projectState = importedData;
           if (!Array.isArray(projectState.phase4)) {
             projectState.phase4 = [];
+          }
+          if (!projectState.sceneDrafts) {
+            projectState.sceneDrafts = {};
           }
           saveLocalProject();
           alert(`Projeto "${projectState.title}" carregado com sucesso!`);
@@ -390,8 +403,21 @@ function exportProject(format) {
       content += `(Nenhum cartão de cena cadastrado)\n\n`;
     }
 
-    content += `## Fase 5: Roteiro (Roadmap)\n\n(A preencher)\n\n`;
-    content += `## Rascunho Final\n\n${projectState.editorDraft || '(Vazio)'}\n`;
+    // Fase 5
+    content += `## Fase 5: Roteiro (Roadmap)\n\n`;
+    if (Array.isArray(projectState.phase4) && projectState.phase4.length > 0) {
+      projectState.phase4.forEach((sc, i) => {
+        const draftText = projectState.sceneDrafts ? projectState.sceneDrafts[sc.id] : '';
+        content += `### ${i+1}. ${sc.titulo || 'Cena sem título'}\n`;
+        content += `* **ALFA:** ${sc.pontoAlfa || '(Vazio)'}\n`;
+        content += `* **E POR ISSO?:** ${sc.ePorIsso || '(Vazio)'}\n`;
+        content += `* **RASCUNHO:**\n${draftText || '(Sem rascunho escrito)'}\n\n`;
+      });
+    } else {
+      content += `(Nenhuma cena no roteiro)\n\n`;
+    }
+
+    content += `## Rascunho Geral Final\n\n${projectState.editorDraft || '(Vazio)'}\n`;
 
     const mime = format === 'md' ? 'text/markdown' : 'text/plain';
     const dataStr = `data:${mime};charset=utf-8,` + encodeURIComponent(content);

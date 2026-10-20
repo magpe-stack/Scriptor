@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scriptor-v1';
+const CACHE_NAME = 'scriptor-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -8,8 +8,10 @@ const ASSETS = [
   './theory-storygenius.js',
   './theory-steps.js',
   './theory-example.js',
+  './theory-tips.js',
   './manifest.json',
   './logo.svg',
+  './storygenius-capa.svg',
   './icon-192.png',
   './icon-512.png'
 ];

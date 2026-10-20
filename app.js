@@ -188,6 +188,11 @@ function navigateToRoute(route) {
       mainView.innerHTML = renderPhase5View();
       initPhase5Events();
     }
+  } else if (route === 'editor') {
+    if (typeof renderEditorView !== 'undefined') {
+      mainView.innerHTML = renderEditorView();
+      initEditorEvents();
+    }
   } else if (route === 'theory-pt') {
     if (typeof theoryPtContent !== 'undefined') mainView.innerHTML = theoryPtContent;
   } else if (route === 'theory-storygenius') {
@@ -417,7 +422,18 @@ function exportProject(format) {
       content += `(Nenhuma cena no roteiro)\n\n`;
     }
 
-    content += `## Rascunho Geral Final\n\n${projectState.editorDraft || '(Vazio)'}\n`;
+    // Rascunho Geral e Cenas Escritas
+    content += `## Rascunho Geral e Cenas Escritas\n\n`;
+    if (projectState.sceneDrafts && Object.keys(projectState.sceneDrafts).length > 0) {
+      Object.keys(projectState.sceneDrafts).forEach((id) => {
+        const d = projectState.sceneDrafts[id];
+        const sceneInfo = (projectState.phase4 || []).find(s => s.id === id);
+        const title = d.title || (sceneInfo ? sceneInfo.titulo : 'Cena');
+        content += `### ${title}\n\n${d.content || '(Vazio)'}\n\n`;
+      });
+    } else {
+      content += `${projectState.editorDraft || '(Vazio)'}\n`;
+    }
 
     const mime = format === 'md' ? 'text/markdown' : 'text/plain';
     const dataStr = `data:${mime};charset=utf-8,` + encodeURIComponent(content);

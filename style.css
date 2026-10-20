@@ -110,7 +110,7 @@ body {
 }
 
 /* ==========================================================================
-   4. Menu Lateral Sempre Fixo na Tela (Sidebar com Rolagem Ultrafina)
+   4. Menu Lateral Fixo com Rolagem Ultrafina e Discreta (Sidebar)
    ========================================================================== */
 .sidebar {
   width: var(--sidebar-width);
@@ -126,12 +126,12 @@ body {
   bottom: 0;
   left: 0;
   z-index: 900;
-  overflow-y: auto; /* Ativa rolagem vertical caso os submenus expandam */
+  overflow-y: auto; /* Ativa rolagem vertical quando os submenus expandem */
   overflow-x: hidden;
   align-items: center;
 }
 
-/* Barra de rolagem ultrafina e quase imperceptível para a sidebar */
+/* Barra de rolagem ultrafina (4px) e discreta para a sidebar */
 .sidebar::-webkit-scrollbar {
   width: 4px;
 }
@@ -241,11 +241,11 @@ body {
 [data-theme="light"] .moon-icon { display: block; }
 
 /* ==========================================================================
-   5. Área Principal de Conteúdo (main-content)
+   5. Área Principal de Conteúdo e Módulos Teóricos (main-content)
    ========================================================================== */
 .main-content {
   flex: 1;
-  margin-left: var(--sidebar-width); /* Desloca o conteúdo para não cobrir o menu fixo */
+  margin-left: var(--sidebar-width); /* Desloca o conteúdo para não cobrir a sidebar */
   padding: 32px 28px;
   width: calc(100% - var(--sidebar-width));
   background-color: var(--bg-color);
@@ -282,6 +282,37 @@ body {
   line-height: 1.7;
 }
 
+/* Estilização e Controle de Capas de Livros e Promoção */
+.theory-article img,
+.book-cover-img {
+  max-width: 220px; /* Impede que a capa fique gigante */
+  height: auto;
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+  display: block;
+}
+
+.book-promo-card {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.book-promo-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 260px;
+}
+
+/* Cartões de Formulário e Entradas de Dados */
 .project-form-card {
   background-color: var(--panel-bg);
   border: 1px solid var(--border-color);

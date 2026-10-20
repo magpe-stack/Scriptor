@@ -192,6 +192,13 @@ function navigateToRoute(route) {
     if (typeof renderEditorView !== 'undefined') {
       mainView.innerHTML = renderEditorView();
       initEditorEvents();
+    } else {
+      mainView.innerHTML = `
+        <article class="theory-article">
+          <h1>EDITOR DE RASCUNHO</h1>
+          <p>Certifique-se de que o arquivo editor.js está incluído no index.html.</p>
+        </article>
+      `;
     }
   } else if (route === 'theory-pt') {
     if (typeof theoryPtContent !== 'undefined') mainView.innerHTML = theoryPtContent;

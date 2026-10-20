@@ -1,9 +1,9 @@
 /**
  * Scriptor - Service Worker (PWA)
- * Versão: scriptor-v6
+ * Versão: scriptor-v7
  */
 
-const CACHE_NAME = 'scriptor-v6';
+const CACHE_NAME = 'scriptor-v7';
 
 // Ficheiros essenciais mantidos em cache para funcionamento offline
 const ASSETS = [
@@ -19,6 +19,7 @@ const ASSETS = [
   './form-phase1.js',
   './form-phase2.js',
   './form-phase3.js',
+  './form-phase4.js',
   './manifest.json',
   './logo.svg',
   './storygenius-capa.svg',

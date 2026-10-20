@@ -2,7 +2,6 @@
  * Scriptor - Aplicação Principal
  */
 
-// Estado Global do Projeto do Usuário
 let projectState = {
   title: "",
   phase1: {},
@@ -21,9 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
   loadLocalProject();
 });
 
-/* ==========================================================================
-   1. Persistência Local Básica
-   ========================================================================== */
 function saveLocalProject() {
   localStorage.setItem('scriptor_current_project', JSON.stringify(projectState));
 }
@@ -39,9 +35,6 @@ function loadLocalProject() {
   }
 }
 
-/* ==========================================================================
-   2. Alternância do Modo Claro/Escuro & Ação do Logotipo
-   ========================================================================== */
 function initTheme() {
   const themeToggleBtn = document.getElementById('theme-toggle');
   const savedTheme = localStorage.getItem('scriptor-theme') || 'dark';
@@ -67,9 +60,6 @@ function initBrandClick() {
   });
 }
 
-/* ==========================================================================
-   3. Renderização de Telas "Home" e "Novo Projeto"
-   ========================================================================== */
 function renderWelcomeView() {
   return `
     <section id="app-view" class="welcome-container">
@@ -135,9 +125,6 @@ function initNewProjectEvents() {
   });
 }
 
-/* ==========================================================================
-   4. Navegação Principal e Rotas
-   ========================================================================== */
 function navigateToRoute(route) {
   const mainView = document.getElementById('app-view');
 
@@ -154,6 +141,11 @@ function navigateToRoute(route) {
     if (typeof renderPhase1View !== 'undefined') {
       mainView.innerHTML = renderPhase1View();
       initPhase1Events();
+    }
+  } else if (route === 'phase2') {
+    if (typeof renderPhase2View !== 'undefined') {
+      mainView.innerHTML = renderPhase2View();
+      initPhase2Events();
     }
   } else if (route === 'theory-pt') {
     if (typeof theoryPtContent !== 'undefined') mainView.innerHTML = theoryPtContent;
@@ -220,9 +212,6 @@ function initMenu() {
   });
 }
 
-/* ==========================================================================
-   5. Carregar / Importar Projeto de Arquivo JSON
-   ========================================================================== */
 function importJsonProject() {
   const fileInput = document.createElement('input');
   fileInput.type = 'file';
@@ -258,9 +247,6 @@ function importJsonProject() {
   fileInput.click();
 }
 
-/* ==========================================================================
-   6. Exportação Semântica Ordenada
-   ========================================================================== */
 function exportProject(format) {
   if (!projectState.title) {
     alert('Nenhum projeto foi iniciado ainda.');
@@ -269,6 +255,7 @@ function exportProject(format) {
 
   const filename = `${projectState.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}_scriptor`;
   const p1 = projectState.phase1 || {};
+  const p2 = projectState.phase2 || {};
 
   if (format === 'json') {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(projectState, null, 2));
@@ -285,7 +272,18 @@ function exportProject(format) {
     content += `### 7. Livros Comparáveis\n${p1.comps || '(Vazio)'}\n\n`;
     content += `### 8. Promessa de Entretenimento e Gênero\n${p1.promessa || '(Vazio)'}\n\n`;
 
-    content += `## Fase 2: Arquitetura Psicológica\n\n(A preencher)\n\n`;
+    content += `## Fase 2: Arquitetura Psicológica e Backstory Dramatizada\n\n`;
+    content += `### Passo 5: Estado Inicial\n${p2.estadoInicial || '(Vazio)'}\n\n`;
+    content += `### Passo 6: Desejo Superficial\n${p2.desejoSuperficial || '(Vazio)'}\n\n`;
+    content += `### Passo 7: Motivação Interna do Desejo\n${p2.motivacaoInterna || '(Vazio)'}\n\n`;
+    content += `### Passo 8: A Falsa Crença Central\n${p2.falsaCrenca || '(Vazio)'}\n\n`;
+    content += `### Passos 9 e 10: A Cena de Origem (Planejamento)\n${p2.cenaOrigemPlanejamento || '(Vazio)'}\n\n`;
+    content += `### Passos 9 e 10: A Cena de Origem (A Escrita)\n${p2.cenaOrigemEscrita || '(Vazio)'}\n\n`;
+    content += `### Passo 11: Cenas de Encruzilhada\n`;
+    content += `* **Primeiro Momento:** ${p2.encruzilhada1 || '(Vazio)'}\n`;
+    content += `* **Segundo Momento:** ${p2.encruzilhada2 || '(Vazio)'}\n`;
+    content += `* **Terceiro Momento:** ${p2.encruzilhada3 || '(Vazio)'}\n\n`;
+
     content += `## Fase 3: Enredo Causal\n\n(A preencher)\n\n`;
     content += `## Fase 4: Cartões de Cena\n\n(A preencher)\n\n`;
     content += `## Fase 5: Roteiro (Roadmap)\n\n(A preencher)\n\n`;
@@ -308,9 +306,6 @@ function downloadFile(dataStr, fileName) {
   downloadAnchor.remove();
 }
 
-/* ==========================================================================
-   7. Registro do Service Worker (PWA)
-   ========================================================================== */
 function initPWA() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {

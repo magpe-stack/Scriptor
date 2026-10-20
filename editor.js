@@ -191,10 +191,38 @@ function renderEditorView() {
   `;
 }
 
+/**
+ * Função utilitária interna para persistir o conteúdo atual da tela antes de qualquer re-renderização
+ */
+function persistCurrentEditorContent() {
+  const activeId = projectState.currentWritingSceneId;
+  if (!activeId) return;
+
+  const titleInput = document.getElementById('scene-title-input');
+  const editorDiv = document.getElementById('scene-content-editor');
+
+  if (!projectState.sceneDrafts[activeId]) {
+    projectState.sceneDrafts[activeId] = { title: '', content: '' };
+  }
+
+  if (titleInput) {
+    projectState.sceneDrafts[activeId].title = titleInput.value;
+    const sceneObj = projectState.phase4.find(s => s.id === activeId);
+    if (sceneObj) sceneObj.titulo = titleInput.value;
+  }
+
+  if (editorDiv) {
+    projectState.sceneDrafts[activeId].content = editorDiv.innerHTML;
+  }
+
+  saveLocalProject();
+}
+
 function initEditorEvents() {
   const sceneSelector = document.getElementById('editor-scene-selector');
   if (sceneSelector) {
     sceneSelector.addEventListener('change', (e) => {
+      persistCurrentEditorContent();
       projectState.currentWritingSceneId = e.target.value;
       saveLocalProject();
       refreshEditorView();
@@ -204,6 +232,7 @@ function initEditorEvents() {
   const addSceneBtn = document.getElementById('editor-add-scene-btn');
   if (addSceneBtn) {
     addSceneBtn.addEventListener('click', () => {
+      persistCurrentEditorContent();
       const newScene = {
         id: 'scene_' + Date.now(),
         titulo: 'Nova Cena',
@@ -225,6 +254,7 @@ function initEditorEvents() {
   const toggleCardBtn = document.getElementById('toggle-card-btn');
   if (toggleCardBtn) {
     toggleCardBtn.addEventListener('click', () => {
+      persistCurrentEditorContent();
       projectState.isEditorCardVisible = !Boolean(projectState.isEditorCardVisible !== false);
       saveLocalProject();
       refreshEditorView();
@@ -234,6 +264,7 @@ function initEditorEvents() {
   const toggleFocusBtn = document.getElementById('toggle-focus-btn');
   if (toggleFocusBtn) {
     toggleFocusBtn.addEventListener('click', () => {
+      persistCurrentEditorContent(); // Salva IMEDIATAMENTE o texto antes de entrar no modo foco
       projectState.isEditorFocusMode = true;
       saveLocalProject();
       refreshEditorView();
@@ -243,6 +274,7 @@ function initEditorEvents() {
   const exitFocusBtn = document.getElementById('exit-focus-btn');
   if (exitFocusBtn) {
     exitFocusBtn.addEventListener('click', () => {
+      persistCurrentEditorContent(); // Salva IMEDIATAMENTE o texto antes de sair do modo foco
       projectState.isEditorFocusMode = false;
       saveLocalProject();
       refreshEditorView();
@@ -252,6 +284,7 @@ function initEditorEvents() {
   const gotoPhase4Btn = document.getElementById('goto-phase4-btn');
   if (gotoPhase4Btn) {
     gotoPhase4Btn.addEventListener('click', () => {
+      persistCurrentEditorContent();
       navigateToRoute('phase4');
     });
   }

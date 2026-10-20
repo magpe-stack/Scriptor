@@ -16,7 +16,6 @@ const ASSETS = [
   './icon-512.png'
 ];
 
-// Instalação do Service Worker e Caching dos Recursos
 self.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -26,7 +25,6 @@ self.addEventListener('install', (e) => {
   self.skipWaiting();
 });
 
-// Ativação e Limpeza de Caches Antigos
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((keys) => {
@@ -42,7 +40,6 @@ self.addEventListener('activate', (e) => {
   self.clients.claim();
 });
 
-// Estratégia de Fetch: Cache First, depois Network
 self.addEventListener('fetch', (e) => {
   e.respondWith(
     caches.match(e.request).then((cachedResponse) => {

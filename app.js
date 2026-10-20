@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initMenu();
   initPWA();
+  initBrandClick();
   // Carrega projeto salvo anteriormente no localStorage
   loadLocalProject();
 });
@@ -40,7 +41,7 @@ function loadLocalProject() {
 }
 
 /* ==========================================================================
-   2. Alternância do Modo Claro/Escuro
+   2. Alternância do Modo Claro/Escuro & Ação do Logotipo
    ========================================================================== */
 function initTheme() {
   const themeToggleBtn = document.getElementById('theme-toggle');
@@ -57,9 +58,31 @@ function initTheme() {
   });
 }
 
+function initBrandClick() {
+  const brandElem = document.querySelector('.brand');
+  if (!brandElem) return;
+
+  brandElem.style.cursor = 'pointer';
+  brandElem.addEventListener('click', () => {
+    navigateToRoute('home');
+  });
+}
+
 /* ==========================================================================
-   3. Renderização da Tela "Novo Projeto"
+   3. Renderização da Tela "Novo Projeto" e "Boas-Vindas"
    ========================================================================== */
+function renderWelcomeView() {
+  return `
+    <section id="app-view" class="welcome-container">
+      <div class="welcome-overlay">
+        <h2>Bem-vindo ao Scriptor</h2>
+        <p>Selecione uma opção no menu lateral para começar.</p>
+      </div>
+      <img src="ilustra-scriptor.svg" alt="Ilustração de boas-vindas do Scriptor" class="welcome-illustration">
+    </section>
+  `;
+}
+
 function renderNewProjectView() {
   return `
     <article class="theory-article">
@@ -109,7 +132,6 @@ function initNewProjectEvents() {
     navigateToRoute('phase1');
   });
 
-  // Permite dar Enter no campo para iniciar
   titleInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
       startBtn.click();
@@ -128,7 +150,9 @@ function navigateToRoute(route) {
   const activeBtn = document.querySelector(`.icon-btn[data-route="${route}"]`);
   if (activeBtn) activeBtn.classList.add('active');
 
-  if (route === 'new') {
+  if (route === 'home') {
+    mainView.outerHTML = renderWelcomeView();
+  } else if (route === 'new') {
     mainView.innerHTML = renderNewProjectView();
     initNewProjectEvents();
   } else if (route === 'phase1') {
@@ -177,7 +201,7 @@ function initMenu() {
     });
   });
 
-  // Listener do botão Novo e demais rotas
+  // Listener dos botões do menu lateral
   document.querySelectorAll('.icon-btn[data-route], .icon-btn[data-action], .icon-btn[data-export], .icon-btn[data-import]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const target = e.currentTarget;

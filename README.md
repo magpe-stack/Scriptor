@@ -55,7 +55,7 @@ O **Scriptor** foi concebido para auxiliar escritoras e escritores na construç�
 Por se tratar de um PWA, o Scriptor não exige executáveis tradicionais (`.exe` ou `.dmg`).
 
 ### Instalação no Desktop (Chrome / Edge / Firefox)
-1. Acesse o endereço do Scriptor no seu navegador.
+1. Acesse o endereço do Scriptor no seu navegador <https://magpe-stack.github.io/Scriptor/>.
 2. Observe o ícone de instalação de aplicativo no canto direito da barra de endereço (ou acesse o menu de opções do navegador).
 3. Clique em **"Instalar Scriptor"**.
 4. A aplicação passará a abrir em uma janela autônoma, com atalho na sua área de trabalho ou menu de aplicativos.

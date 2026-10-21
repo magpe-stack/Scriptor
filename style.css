@@ -298,6 +298,7 @@ body {
   width: calc(100% - var(--sidebar-width));
   background-color: var(--bg-color);
   min-height: calc(100vh - var(--header-height));
+   overflow-y: auto; /* Permite rolar a página normalmente caso o conteúdo exceda a tela */
 }
 
 .theory-article {

@@ -4,7 +4,12 @@
 
 function renderDashboardView() {
   if (!projectState) {
-    projectState = { phase1: {}, phase2: {}, phase3: {}, phase4: [], sceneDrafts: {} };
+    projectState = { phase1: {}, phase2: {}, phase3: {}, phase4: [], sceneDrafts: {}, wordTarget: 50000 };
+  }
+
+  // Garante que existe uma meta padrão configurada (padrão de 50.000 se não definida)
+  if (!projectState.wordTarget || isNaN(projectState.wordTarget)) {
+    projectState.wordTarget = 50000;
   }
 
   // --- CÁLCULOS DE PROGRESSO DE PREENCHIMENTO ---
@@ -49,8 +54,8 @@ function renderDashboardView() {
     }
   });
 
-  const wordTarget = 50000; // Meta padrão de romance (50k palavras)
-  const writingPercent = Math.min(100, Math.round((totalWords / wordTarget) * 100));
+  const wordTarget = Number(projectState.wordTarget);
+  const writingPercent = wordTarget > 0 ? Math.min(100, Math.round((totalWords / wordTarget) * 100)) : 0;
 
   return `
     <div class="theory-article" style="gap: 24px;">
@@ -138,22 +143,42 @@ function renderDashboardView() {
 
       </div>
 
-      <!-- Card de Produção de Rascunho (Fase 5) -->
+      <!-- Card de Produção de Rascunho (Fase 5) com Meta Personalizada -->
       <h2 style="font-size: 1.2rem; margin: 12px 0 0 0; border: none; padding: 0;">Produção de Rascunho</h2>
-      <div class="project-form-card" style="gap: 12px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div class="project-form-card" style="gap: 16px;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
           <div>
-            <strong style="color: var(--text-color); font-size: 1.05rem;">Volume de Escrita (Meta: 50.000 palavras)</strong>
+            <strong style="color: var(--text-color); font-size: 1.05rem;">Volume de Escrita da Obra</strong>
             <p style="margin: 2px 0 0 0; color: var(--text-muted); font-size: 0.9rem;">${totalWords.toLocaleString('pt-BR')} palavras escritas até o momento</p>
           </div>
-          <span style="font-size: 1.3rem; font-weight: 800; color: var(--primary-color);">${writingPercent}%</span>
+
+          <!-- Seletor / Input de Meta de Palavras Personalizada -->
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label for="word-target-input" class="field-hint" style="font-weight: 600;">Meta de Palavras:</label>
+            <input 
+              type="number" 
+              id="word-target-input" 
+              class="form-input" 
+              value="${wordTarget}" 
+              step="5000" 
+              min="1000" 
+              max="500000" 
+              style="width: 130px; padding: 6px 10px; font-size: 0.95rem; font-weight: 700;"
+            />
+          </div>
         </div>
         
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span class="field-hint">Progresso em relação à meta definida:</span>
+          <span style="font-size: 1.2rem; font-weight: 800; color: var(--primary-color);">${writingPercent}%</span>
+        </div>
+
         <div style="width: 100%; background-color: var(--input-bg); border-radius: 8px; height: 10px; overflow: hidden;">
           <div style="width: ${writingPercent}%; background-color: var(--primary-color); height: 100%; transition: width 0.4s ease;"></div>
         </div>
 
-        <div style="display: flex; justify-content: flex-end; margin-top: 8px;">
+        <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
           <button class="primary-btn" onclick="navigateToRoute('editor')">Abrir Editor de Rascunho</button>
         </div>
       </div>
@@ -163,5 +188,26 @@ function renderDashboardView() {
 }
 
 function initDashboardEvents() {
-  // O painel utiliza navegação nativa e botões interativos já integrados às rotas
+  const targetInput = document.getElementById('word-target-input');
+  if (targetInput) {
+    targetInput.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      if (!isNaN(val) && val > 0) {
+        projectState.wordTarget = val;
+        saveLocalProject();
+      }
+    });
+
+    targetInput.addEventListener('change', () => {
+      refreshDashboardView();
+    });
+  }
+}
+
+function refreshDashboardView() {
+  const mainView = document.getElementById('app-view');
+  if (mainView) {
+    mainView.innerHTML = renderDashboardView();
+    initDashboardEvents();
+  }
 }

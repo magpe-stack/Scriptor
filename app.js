@@ -125,6 +125,28 @@ function renderNewProjectView() {
         </div>
       </div>
 
+      <!-- Card: Sobre o Scriptor -->
+      <div class="project-form-card about-scriptor-card" style="margin-top: 24px;">
+        <h3 style="margin: 0 0 8px 0; font-size: 1.05rem; color: var(--primary-color);">Sobre o Scriptor</h3>
+        <p class="field-hint" style="margin-bottom: 16px !important; color: var(--text-color); font-size: 0.95rem; line-height: 1.6;">
+          O Scriptor é uma aplicação focada no planejamento estruturado e na criação de livros literários. Desenvolvido para guiar escritores desde a fundação da ideia até a organização de cenas e rascunho, ele garante total privacidade mantendo seus dados salvos localmente.
+        </p>
+        <div>
+          <a 
+            href="https://github.com/magpe-stack/Scriptor/blob/main/manual_do_usu_rio_scriptor.md" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="card-ctrl-btn manual-btn" 
+            style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;"
+          >
+            <svg viewBox="0 0 24 24" style="fill: currentColor; width: 18px; height: 18px;">
+              <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
+            </svg>
+            Acessar Manual do Scriptor
+          </a>
+        </div>
+      </div>
+
       <!-- Ação Crítica Exclusiva: Limpar Cache e Apagar Dados -->
       <div class="project-form-card" style="border-color: rgba(255, 87, 34, 0.4); margin-top: 24px;">
         <h3 style="margin: 0; font-size: 1.05rem; color: #ff5722;">Reset Completo da Aplicação</h3>

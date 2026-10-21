@@ -1,39 +1,50 @@
 /* ==========================================================================
-   Scriptor - Estilos Globais e Variáveis de Tema (Light / Dark)
+   1. Variáveis Globais e Temas (Claro / Escuro)
    ========================================================================== */
-
 :root {
-  --primary-color: #257d0d;
-  --primary-hover: #1e630a;
-  --primary-light: rgba(37, 125, 13, 0.15);
+  /* Tema Escuro (Padrão) */
   --bg-color: #121212;
-  --card-bg: #1e1e1e;
-  --sidebar-bg: #181818;
+  --panel-bg: #1e1e1e;
+  --card-bg: #242424;
   --text-color: #e0e0e0;
   --text-muted: #a0a0a0;
-  --border-color: #2d2d2d;
+  --border-color: #333333;
+  --primary-color: #257d0d;
+  --primary-hover: #216d0b;
   --input-bg: #2a2a2a;
-  --focus-ring: rgba(37, 125, 13, 0.4);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --header-height: 60px;
+  --sidebar-width: 64px; /* Menu compacto para os ícones */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="light"] {
+  /* Tema Claro */
   --bg-color: #f4f6f8;
+  --panel-bg: #ffffff;
   --card-bg: #ffffff;
-  --sidebar-bg: #ffffff;
-  --text-color: #212529;
-  --text-muted: #6c757d;
-  --border-color: #e3e8ed;
-  --input-bg: #f8f9fa;
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --text-color: #1c1e21;
+  --text-muted: #606770;
+  --border-color: #e1e4e8;
+  --primary-color: #257d0d;
+  --primary-hover: #1e620a;
+  --input-bg: #f0f2f5;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+/* Reset e Base Global */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html, body {
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto; /* Rolagem nativa e suave da área de conteúdo */
 }
 
 body {
@@ -41,250 +52,277 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   line-height: 1.6;
-  min-height: 100vh;
-  top: 0px !important; /* Previne o salto de layout do Google Translate */
-}
-
-/* ==========================================================================
-   Barra Superior Direita (Idioma & Tema)
-   ========================================================================== */
-
-#top-right-toolbar {
-  position: fixed;
-  top: 14px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  z-index: 10000;
-}
-
-.goog-te-combo {
-  background-color: var(--card-bg) !important;
-  color: var(--text-color) !important;
-  border: 1px solid var(--border-color) !important;
-  padding: 6px 10px !important;
-  border-radius: 8px !important;
-  font-size: 0.85rem !important;
-  outline: none !important;
-  cursor: pointer !important;
-  box-shadow: var(--shadow-sm);
-}
-
-.goog-te-gadget {
-  font-size: 0 !important;
-  color: transparent !important;
-}
-
-.goog-te-gadget span {
-  display: none !important;
-}
-
-body > .skiptranslate, 
-.goog-te-banner-frame {
-  display: none !important;
-}
-
-/* ==========================================================================
-   Estrutura de Layout do Scriptor
-   ========================================================================== */
-
-.app-container {
-  display: flex;
-  min-height: 100vh;
-}
-
-/* Sidebar / Menu Lateral Persistente */
-.sidebar {
-  width: 72px;
-  background-color: var(--sidebar-bg);
-  border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   2. Cabeçalho Superior Fixo (app-header)
+   ========================================================================== */
+.app-header {
+  height: var(--header-height);
+  background-color: var(--panel-bg);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
   align-items: center;
-  padding: 16px 0;
+  justify-content: space-between;
+  padding: 0 16px;
   position: fixed;
   top: 0;
-  bottom: 0;
   left: 0;
-  z-index: 100;
+  right: 0;
+  z-index: 1000;
 }
 
 .brand {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  margin-bottom: 24px;
-}
-
-.logo-icon {
-  width: 40px;
-  height: 40px;
-  background-color: var(--primary-color);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-sm);
-}
-
-.logo-icon svg {
-  width: 24px;
-  height: 24px;
-  fill: #ffffff;
-}
-
-.brand-name {
-  font-size: 0.75rem;
+  gap: 12px;
   font-weight: 700;
+  font-size: 1.2rem;
   color: var(--text-color);
-  margin-top: 4px;
+  user-select: none;
 }
 
-.sidebar-nav {
+.brand img.app-logo {
+  height: 32px;
+  width: auto;
+}
+
+.app-title {
+  font-size: 1.3rem;
+  color: var(--text-color);
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+/* ==========================================================================
+   3. Estrutura Principal do App (app-container)
+   ========================================================================== */
+.app-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: var(--header-height); /* Compensa a altura do cabeçalho fixo */
+  min-height: calc(100vh - var(--header-height));
   width: 100%;
 }
 
-.sidebar-nav ul {
+/* ==========================================================================
+   4. Menu Lateral Fixo com Rolagem Ultrafina e Discreta (Sidebar)
+   ========================================================================== */
+.sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  background-color: var(--panel-bg);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px 6px;
+  position: fixed;
+  top: var(--header-height);
+  bottom: 0;
+  left: 0;
+  z-index: 900;
+  overflow-y: auto; /* Ativa rolagem vertical quando os submenus expandem */
+  overflow-x: hidden;
+  align-items: center;
+}
+
+/* Barra de rolagem ultrafina (4px) e discreta para a sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+.main-menu {
   list-style: none;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 12px;
+  gap: 4px;
   width: 100%;
+  align-items: center;
 }
 
-.sidebar-nav li {
-  position: relative;
-  width: 100%;
+.menu-item {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  position: relative;
 }
 
 .icon-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  border: none;
-  background: transparent;
-  color: var(--text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
   cursor: pointer;
   transition: all 0.2s ease;
+  width: 44px;
+  height: 44px;
+}
+
+.icon-btn:hover {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+}
+
+.icon-btn.active {
+  background-color: var(--primary-color);
+  color: #ffffff;
 }
 
 .icon-btn svg {
   width: 22px;
   height: 22px;
   fill: currentColor;
+  flex-shrink: 0;
 }
 
-.icon-btn .btn-text {
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
-
-.icon-btn:hover, 
-.icon-btn.active {
-  background-color: var(--primary-light);
-  color: var(--primary-color);
-}
-
-.icon-btn:hover .btn-text, 
-.icon-btn.active .btn-text {
-  color: var(--primary-color);
-}
-
-/* Submenu Dropdown Lateral */
-.menu-item.has-submenu .submenu {
+/* Submenus Expandíveis */
+.submenu {
   display: none;
-  position: absolute;
-  left: 72px;
-  top: 0;
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 8px;
-  box-shadow: var(--shadow-md);
+  list-style: none;
   flex-direction: column;
-  gap: 6px;
-  z-index: 200;
+  padding: 4px 0;
+  gap: 4px;
+  align-items: center;
+  width: 100%;
+  background-color: var(--panel-bg);
+  border-radius: 6px;
 }
 
-.menu-item.has-submenu.open .submenu {
+.menu-item.open .submenu {
   display: flex;
 }
 
-.submenu-btn {
-  width: 40px;
-  height: 40px;
+.badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--primary-color);
+  border: 1px solid var(--border-color);
 }
 
-/* Main Content Container */
-.main-content {
-  margin-left: 72px;
-  flex: 1;
-  padding: 32px;
-  max-width: 1100px;
+.sidebar-footer {
+  padding-top: 8px;
+  border-top: 1px solid var(--border-color);
+  margin-top: 8px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
+
+/* Ícones do Modo Claro / Escuro */
+[data-theme="dark"] .sun-icon { display: block; }
+[data-theme="dark"] .moon-icon { display: none; }
+[data-theme="light"] .sun-icon { display: none; }
+[data-theme="light"] .moon-icon { display: block; }
 
 /* ==========================================================================
-   Ecrã de Boas-Vindas e Cards Genéricos
+   5. Área Principal de Conteúdo e Módulos Teóricos (main-content)
    ========================================================================== */
-
-.welcome-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 80vh;
-  text-align: center;
+.main-content {
+  flex: 1;
+  margin-left: var(--sidebar-width); /* Desloca o conteúdo para não cobrir a sidebar */
+  padding: 32px 28px;
+  width: calc(100% - var(--sidebar-width));
+  background-color: var(--bg-color);
+  min-height: calc(100vh - var(--header-height));
 }
 
-.welcome-overlay h2 {
-  font-size: 2rem;
-  color: var(--primary-color);
-  margin-bottom: 8px;
-}
-
-.welcome-overlay p {
-  color: var(--text-muted);
-  font-size: 1.1rem;
-}
-
-.welcome-illustration {
-  max-width: 420px;
-  width: 100%;
-  margin-top: 32px;
-  opacity: 0.9;
-}
-
-/* Estilos de Artigos Teóricos e Formulários */
 .theory-article {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .theory-article h1 {
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: var(--primary-color);
-  border-bottom: 2px solid var(--primary-color);
-  padding-bottom: 8px;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
-.project-form-card {
-  background-color: var(--card-bg);
+.theory-article h2 {
+  font-size: 1.4rem;
+  margin-top: 16px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 8px;
+  color: var(--text-color);
+}
+
+.theory-article p {
+  font-size: 1.02rem;
+  color: var(--text-color);
+  line-height: 1.7;
+}
+
+/* Estilização e Controle de Capas de Livros e Promoção */
+.theory-article img,
+.book-cover-img {
+  max-width: 220px; /* Impede que a capa fique gigante */
+  height: auto;
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+  display: block;
+}
+
+.book-promo-card {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  background-color: var(--panel-bg);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
+  padding: 20px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.book-promo-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-width: 260px;
+}
+
+/* Cartões de Formulário e Entradas de Dados */
+.project-form-card {
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+  width: 100%;
 }
 
 .form-label {
@@ -293,56 +331,25 @@ body > .skiptranslate,
   color: var(--text-color);
 }
 
-.form-input, 
-.form-textarea {
+.form-input, .form-textarea {
   width: 100%;
   background-color: var(--input-bg);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 12px;
-  color: var(--text-color);
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.2s ease;
-}
-
-.form-input:focus, 
-.form-textarea:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px var(--focus-ring);
-}
-
-.primary-btn {
-  background-color: var(--primary-color);
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.primary-btn:hover {
-  background-color: var(--primary-hover);
-}
-
-.card-ctrl-btn {
-  background: transparent;
-  border: 1px solid var(--border-color);
-  color: var(--text-color);
-  padding: 8px 14px;
   border-radius: 6px;
-  font-size: 0.85rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
+  padding: 10px 14px;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  font-family: inherit;
 }
 
-.card-ctrl-btn:hover {
+.form-input:focus, .form-textarea:focus {
+  outline: none;
   border-color: var(--primary-color);
-  color: var(--primary-color);
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
 }
 
 .field-hint {
@@ -350,45 +357,338 @@ body > .skiptranslate,
   color: var(--text-muted);
 }
 
+.primary-btn {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.primary-btn:hover {
+  background-color: var(--primary-hover);
+}
+
+.card-ctrl-btn {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.card-ctrl-btn:hover {
+  background-color: var(--card-bg);
+}
+
 /* ==========================================================================
-   Ajustes Responsivos para Dispositivos Móveis
+   6. Roteiro (Roadmap / Timeline - Fase 5)
    ========================================================================== */
+.roadmap-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
 
-@media (max-width: 768px) {
-  .app-container {
-    flex-direction: column;
-  }
+.roadmap-scene-title {
+  font-size: 1.15rem;
+  color: var(--primary-color);
+  margin: 0;
+  font-weight: 700;
+}
 
-  .sidebar {
-    width: 100%;
-    height: 60px;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0 16px;
-    top: auto;
-    bottom: 0;
-    border-right: none;
-    border-top: 1px solid var(--border-color);
-  }
+.roadmap-badge {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
 
-  .brand {
-    margin-bottom: 0;
-    flex-direction: row;
-    gap: 8px;
-  }
+.badge-neutral {
+  background-color: var(--input-bg);
+  color: var(--text-muted);
+}
 
-  .sidebar-nav ul {
-    flex-direction: row;
-  }
+.badge-warning {
+  background-color: rgba(255, 152, 0, 0.15);
+  color: #ff9800;
+}
 
-  .main-content {
-    margin-left: 0;
-    margin-bottom: 60px;
-    padding: 16px;
-  }
+.badge-success {
+  background-color: rgba(37, 125, 13, 0.15);
+  color: var(--primary-color);
+}
 
-  #top-right-toolbar {
-    top: 10px;
-    right: 12px;
-  }
+.roadmap-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.roadmap-text {
+  font-size: 0.95rem;
+  margin-top: 2px;
+}
+
+/* ==========================================================================
+   7. Editor de Rascunho Expandido (Largura Ampla)
+   ========================================================================== */
+.editor-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.editor-toolbar-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px !important;
+  width: 100%;
+}
+
+.editor-selector-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 280px;
+}
+
+.editor-select {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+.editor-tools-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.editor-icon-btn {
+  padding: 8px;
+  width: 38px;
+  height: 38px;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+}
+
+.editor-divider {
+  width: 1px;
+  height: 24px;
+  background-color: var(--border-color);
+  margin: 0 4px;
+}
+
+.editor-workspace {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.editor-scene-card-panel {
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.scene-card-title {
+  font-size: 1rem;
+  color: var(--primary-color);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 6px;
+}
+
+.editor-main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.scene-title-editor {
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding: 12px;
+  width: 100%;
+}
+
+/* Área de Rich Text Editável Ampla */
+.scene-content-editor[contenteditable="true"] {
+  min-height: 520px;
+  outline: none;
+  line-height: 1.7;
+  font-size: 1.08rem;
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 24px;
+  width: 100%;
+}
+
+.scene-content-editor[contenteditable="true"]:empty:before {
+  content: attr(placeholder);
+  color: var(--text-muted);
+  pointer-events: none;
+  display: block;
+}
+
+.scene-content-editor h2 {
+  font-size: 1.4rem;
+  color: var(--primary-color);
+  margin: 16px 0 8px 0;
+}
+
+.scene-content-editor h3 {
+  font-size: 1.2rem;
+  color: var(--text-color);
+  margin: 12px 0 6px 0;
+}
+
+.scene-content-editor ul {
+  padding-left: 24px;
+  margin: 8px 0;
+}
+
+.editor-counters {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  padding: 0 4px;
+}
+
+/* Modo Foco Otimizado */
+.focus-mode-active .editor-main-area {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.exit-focus-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.exit-focus-btn {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  opacity: 0.6;
+}
+
+.exit-focus-btn:hover {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   8. Ecrã de Boas-Vindas
+   ========================================================================== */
+.welcome-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: calc(100vh - var(--header-height) - 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.welcome-overlay {
+  z-index: 2;
+  text-align: center;
+  padding: 20px 32px;
+  background-color: rgba(18, 18, 18, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  margin-top: 24px;
+  border: 1px solid var(--border-color);
+  max-width: 600px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.welcome-overlay h2 {
+  color: #257d0d;
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  font-weight: 800;
+}
+
+.welcome-overlay p {
+  color: #ffffff;
+  font-size: 1rem;
+  margin: 0;
+}
+
+[data-theme="light"] .welcome-overlay {
+  background-color: rgba(255, 255, 255, 0.92);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .welcome-overlay h2 {
+  color: #1e620a;
+}
+
+[data-theme="light"] .welcome-overlay p {
+  color: #111111;
+}
+
+.welcome-illustration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   9. Barras de Rolagem Customizadas Globais
+   ========================================================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
 }

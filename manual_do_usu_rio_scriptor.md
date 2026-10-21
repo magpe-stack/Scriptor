@@ -47,7 +47,7 @@ O **Scriptor** é uma ferramenta focada em autores e roteiristas. Ele orienta o 
 Como PWA (Progressive Web App), o Scriptor não exige instalação por instaladores tradicionais.
 
 ### Acesso Web
-1. Abra o navegador e navegue até a URL do projeto ou abra o ficheiro `index.html` localmente.
+1. Abra o navegador e navegue até a URL do projeto <https://magpe-stack.github.io/Scriptor/> ou abra o ficheiro `index.html` localmente.
 
 ### Instalação como Aplicativo (PWA)
 1. No navegador (Chrome/Edge/Safari), clique no ícone de **Instalar** na barra de endereço ou selecione **"Adicionar à Tela Inicial"**.

@@ -3,202 +3,181 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scriptor - Planejamento Literário</title>
+  <title>Scriptor</title>
   
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
+  <!-- SEO & PWA Meta -->
+  <meta name="description" content="Scriptor - Planejamento e Escrita de Livros Literários">
   <meta name="theme-color" content="#257d0d">
   
-  <!-- Estilos para a Barra Superior Direita (Idioma e Tema) -->
-  <style>
-    #top-right-toolbar {
-      position: fixed;
-      top: 14px;
-      right: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      z-index: 10000;
-    }
-
-    .goog-te-combo {
-      background-color: var(--card-bg, #1e1e1e) !important;
-      color: var(--text-color, #ffffff) !important;
-      border: 1px solid var(--border-color, #333333) !important;
-      padding: 6px 10px !important;
-      border-radius: 8px !important;
-      font-size: 0.85rem !important;
-      outline: none !important;
-      cursor: pointer !important;
-    }
-
-    .goog-te-gadget {
-      font-size: 0 !important;
-      color: transparent !important;
-    }
-
-    .goog-te-gadget span {
-      display: none !important;
-    }
-
-    /* Oculta a barra de aviso que o Google injeta no topo da página */
-    body > .skiptranslate, .goog-te-banner-frame {
-      display: none !important;
-    }
-
-    body {
-      top: 0px !important;
-    }
-  </style>
+  <!-- Favicon & Icons -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Barra Superior Direita: Idioma e Tema -->
-  <div id="top-right-toolbar">
-    <!-- Seletor do Google Translate -->
-    <div id="google_translate_element"></div>
+  <!-- Header Superior -->
+  <header class="app-header">
+    <div class="brand">
+      <img src="logo.svg" alt="Logotipo Scriptor" class="app-logo">
+      <h1 class="app-title">Scriptor</h1>
+    </div>
+  </header>
 
-    <!-- Botão do Modo Claro / Escuro -->
-    <button id="theme-toggle" class="icon-btn" title="Alternar Modo Claro / Escuro" style="width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--card-bg); border: 1px solid var(--border-color); cursor: pointer;">
-      <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: var(--text-color);">
-        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
-      </svg>
-    </button>
-  </div>
-
+  <!-- Container Principal -->
   <div class="app-container">
     
-    <!-- Sidebar / Menu Lateral Persistente -->
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="logo-icon">
-          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-        </div>
-        <span class="brand-name">Scriptor</span>
+    <!-- Barra de Menu Lateral -->
+    <nav class="sidebar" aria-label="Menu Principal">
+      <ul class="menu-list main-menu">
+        
+        <!-- 1. Novo -->
+        <li class="menu-item">
+          <button class="icon-btn" title="Novo" aria-label="Novo" data-action="new">
+            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          </button>
+        </li>
+
+        <!-- 2. Exportar -->
+        <li class="menu-item has-submenu">
+          <button class="icon-btn toggle-submenu" title="Exportar" aria-label="Exportar">
+            <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          </button>
+          <ul class="submenu">
+            <li>
+              <button class="icon-btn sub-btn" title="JSON" aria-label="Exportar JSON" data-export="json">
+                <span class="badge">JSON</span>
+              </button>
+            </li>
+            <li>
+              <button class="icon-btn sub-btn" title="MD" aria-label="Exportar MD" data-export="md">
+                <span class="badge">MD</span>
+              </button>
+            </li>
+            <li>
+              <button class="icon-btn sub-btn" title="TXT" aria-label="Exportar TXT" data-export="txt">
+                <span class="badge">TXT</span>
+              </button>
+            </li>
+            <li>
+              <button class="icon-btn sub-btn" title="DOCX" aria-label="Exportar DOCX" data-export="docx">
+                <span class="badge">DOCX</span>
+              </button>
+            </li>
+          </ul>
+        </li>
+
+        <!-- 3. Carregar -->
+        <li class="menu-item has-submenu">
+          <button class="icon-btn toggle-submenu" title="Carregar" aria-label="Carregar">
+            <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+          </button>
+          <ul class="submenu">
+            <li>
+              <button class="icon-btn sub-btn" title="JSON" aria-label="Carregar JSON" data-import="json">
+                <span class="badge">JSON</span>
+              </button>
+            </li>
+          </ul>
+        </li>
+
+        <!-- 4. Teoria -->
+        <li class="menu-item has-submenu">
+          <button class="icon-btn toggle-submenu" title="Teoria" aria-label="Teoria">
+            <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM3.97 12L12 16.39 20.03 12 12 7.61 3.97 12zM12 18l-7-3.82v3.32l7 3.82 7-3.82v-3.32L12 18z"/></svg>
+          </button>
+          <ul class="submenu">
+            <li>
+              <button class="icon-btn sub-btn" title="Língua Portuguesa" aria-label="Língua Portuguesa" data-route="theory-pt">
+                <svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2.1l1.1-3h4.6l1.1 3H23l-4.5-12zm-2.62 7l1.62-4.41L19.12 17h-3.24z"/></svg>
+              </button>
+            </li>
+            <li>
+              <button class="icon-btn sub-btn" title="Método Story Genius" aria-label="Método Story Genius" data-route="theory-storygenius">
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              </button>
+            </li>
+            <li>
+              <button class="icon-btn sub-btn" title="Passo a passo" aria-label="Passo a passo" data-route="theory-steps">
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+              </button>
+            </li>
+            <li>
+              <button class="icon-btn sub-btn" title="Exemplo" aria-label="Exemplo" data-route="theory-example">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+              </button>
+            </li>
+            <li>
+              <button class="icon-btn sub-btn" title="Dicas" aria-label="Dicas" data-route="theory-tips">
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+              </button>
+            </li>
+          </ul>
+        </li>
+
+        <!-- 5. Painel -->
+        <li class="menu-item">
+          <button class="icon-btn" title="Painel" aria-label="Painel" data-route="dashboard">
+            <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/></svg>
+          </button>
+        </li>
+
+        <!-- 6. Fase 1 - Fundação -->
+        <li class="menu-item">
+          <button class="icon-btn" title="Fase 1 - Fundação" aria-label="Fase 1 - Fundação" data-route="phase1">
+            <svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 14.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          </button>
+        </li>
+
+        <!-- 7. Fase 2 - Psique do Protagonista -->
+        <li class="menu-item">
+          <button class="icon-btn" title="Fase 2 - Psique do Protagonista" aria-label="Fase 2 - Psique do Protagonista" data-route="phase2">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+          </button>
+        </li>
+
+        <!-- 8. Fase 3 - Enredo Causal e Terceiro Trilho -->
+        <li class="menu-item">
+          <button class="icon-btn" title="Fase 3 - Enredo Causal e Terceiro Trilho" aria-label="Fase 3 - Enredo Causal e Terceiro Trilho" data-route="phase3">
+            <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+          </button>
+        </li>
+
+        <!-- 9. Fase 4 - Cartões de Cena -->
+        <li class="menu-item">
+          <button class="icon-btn" title="Fase 4 - Cartões de Cena" aria-label="Fase 4 - Cartões de Cena" data-route="phase4">
+            <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+          </button>
+        </li>
+
+        <!-- 10. Fase 5 - Roteiro (Roadmap) -->
+        <li class="menu-item">
+          <button class="icon-btn" title="Fase 5 - Roteiro (Roadmap)" aria-label="Fase 5 - Roteiro (Roadmap)" data-route="phase5">
+            <svg viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+          </button>
+        </li>
+
+        <!-- 11. Editor de Rascunho -->
+        <li class="menu-item">
+          <button class="icon-btn" title="Editor de Rascunho" aria-label="Editor de Rascunho" data-route="editor">
+            <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+          </button>
+        </li>
+      </ul>
+
+      <!-- Botão Modo Claro/Escuro -->
+      <div class="sidebar-footer">
+        <button class="icon-btn" id="theme-toggle" title="Alternar Modo Claro/Escuro" aria-label="Alternar Modo Claro/Escuro">
+          <svg class="sun-icon" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>
+          <svg class="moon-icon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+        </button>
       </div>
+    </nav>
 
-      <nav class="sidebar-nav">
-        <ul>
-          <!-- Ação: Novo / Configurar Projeto -->
-          <li>
-            <button class="icon-btn" data-action="new" title="Novo / Configurar Projeto">
-              <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-            </button>
-          </li>
-
-          <!-- Submenu de Exportação/Importação -->
-          <li class="menu-item has-submenu">
-            <button class="icon-btn toggle-submenu" title="Exportar / Importar Projeto">
-              <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-            </button>
-            <ul class="submenu">
-              <li>
-                <button class="icon-btn submenu-btn" data-export="json" title="Exportar Projeto em JSON">
-                  <span class="btn-text">JSON</span>
-                </button>
-              </li>
-              <li>
-                <button class="icon-btn submenu-btn" data-export="md" title="Exportar para Markdown">
-                  <span class="btn-text">MD</span>
-                </button>
-              </li>
-              <li>
-                <button class="icon-btn submenu-btn" data-export="txt" title="Exportar para Texto">
-                  <span class="btn-text">TXT</span>
-                </button>
-              </li>
-              <li>
-                <button class="icon-btn submenu-btn" data-export="docx" id="export-docx-btn" title="Exportar para Word (.docx)">
-                  <span class="btn-text">DOCX</span>
-                </button>
-              </li>
-              <li>
-                <button class="icon-btn submenu-btn" data-import="json" title="Importar Projeto JSON">
-                  <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
-                </button>
-              </li>
-            </ul>
-          </li>
-
-          <!-- Módulo Teórico -->
-          <li class="menu-item has-submenu">
-            <button class="icon-btn toggle-submenu" title="Módulo Teórico">
-              <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
-            </button>
-            <ul class="submenu">
-              <li>
-                <button class="icon-btn submenu-btn" data-route="theory-pt" title="Introdução Teórica">
-                  <span class="btn-text">PT</span>
-                </button>
-              </li>
-              <li>
-                <button class="icon-btn submenu-btn" data-route="theory-storygenius" title="O Método Story Genius">
-                  <span class="btn-text">SG</span>
-                </button>
-              </li>
-              <li>
-                <button class="icon-btn submenu-btn" data-route="theory-steps" title="Passo a Passo do Planejamento">
-                  <span class="btn-text">PA</span>
-                </button>
-              </li>
-              <li>
-                <button class="icon-btn submenu-btn" data-route="theory-example" title="Exemplo Prático">
-                  <span class="btn-text">EX</span>
-                </button>
-              </li>
-              <li>
-                <button class="icon-btn submenu-btn" data-route="theory-tips" title="Dicas de Redação">
-                  <span class="btn-text">DC</span>
-                </button>
-              </li>
-            </ul>
-          </li>
-
-          <!-- Rota: Painel de Progresso / Métricas -->
-          <li>
-            <button class="icon-btn" data-route="dashboard" title="Painel de Progresso e Métricas">
-              <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-            </button>
-          </li>
-
-          <!-- Rotas Práticas das Fases -->
-          <li>
-            <button class="icon-btn" data-route="phase1" title="Fase 1: Fundação">
-              <span class="btn-text">F1</span>
-            </button>
-          </li>
-          <li>
-            <button class="icon-btn" data-route="phase2" title="Fase 2: Psique do Protagonista">
-              <span class="btn-text">F2</span>
-            </button>
-          </li>
-          <li>
-            <button class="icon-btn" data-route="phase3" title="Fase 3: Enredo Causal">
-              <span class="btn-text">F3</span>
-            </button>
-          </li>
-          <li>
-            <button class="icon-btn" data-route="phase4" title="Fase 4: Cartões de Cena">
-              <span class="btn-text">F4</span>
-            </button>
-          </li>
-          <li>
-            <button class="icon-btn" data-route="phase5" title="Fase 5: Roteiro (Roadmap)">
-              <span class="btn-text">F5</span>
-            </button>
-          </li>
-
-          <!-- Rota: Editor de Rascunho -->
-          <li>
-            <button class="icon-btn" data-route="editor" title="Editor de Rascunho">
-              <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-            </button>
-          </li>
-        </ul>
-      </nav>
-    </aside>
-
-    <!-- Área de Conteúdo Principal Dinâmica -->
+    <!-- Área de Conteúdo Principal -->
     <main class="main-content">
       <section id="app-view" class="welcome-container">
         <div class="welcome-overlay">
@@ -208,22 +187,10 @@
         <img src="ilustra-scriptor.svg" alt="Ilustração de boas-vindas do Scriptor" class="welcome-illustration">
       </section>
     </main>
+
   </div>
 
-  <!-- Script de Inicialização do Google Translate -->
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'pt',
-        includedLanguages: 'en,es,fr,it,de,pt',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-        autoDisplay: false
-      }, 'google_translate_element');
-    }
-  </script>
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-  <!-- Scripts dos Módulos Teóricos, Formulários das Fases, Editor e Suporte -->
+  <!-- Scripts dos Módulos Teóricos, Formulários das Fases e Editor -->
   <script src="theory-pt.js"></script>
   <script src="theory-storygenius.js"></script>
   <script src="theory-steps.js"></script>

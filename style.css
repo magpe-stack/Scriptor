@@ -215,30 +215,34 @@ body {
   display: flex;
 }
 
-/* Estilização Unificada para Botões de Segundo Nível (Exportação e Teoria) */
+/* Estilização Unificada para Botões de Segundo Nível (Exportação, Carregar e Teoria) */
 .export-btn,
 .theory-sub-btn {
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: 8px;
   color: var(--primary-color);
-  font-weight: 700;
-  padding: 6px 8px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
   transition: all 0.2s ease;
-  font-size: 0.8rem;
-  width: 38px;
-  height: 32px;
+  width: 40px;
+  height: 36px;
+  padding: 6px;
 }
 
 .export-btn:hover,
 .theory-sub-btn:hover {
   background-color: var(--input-bg);
   border-color: var(--primary-color);
+}
+
+/* Garante proporção correta para os SVGs nos botões de teoria */
+.theory-sub-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--primary-color);
 }
 
 .badge {

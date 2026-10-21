@@ -34,7 +34,7 @@
 }
 
 /* Reset e Base Global */
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -213,6 +213,32 @@ body {
 
 .menu-item.open .submenu {
   display: flex;
+}
+
+/* Estilização Unificada para Botões de Segundo Nível (Exportação e Teoria) */
+.export-btn,
+.theory-sub-btn {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--primary-color);
+  font-weight: 700;
+  padding: 6px 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+  font-size: 0.8rem;
+  width: 38px;
+  height: 32px;
+}
+
+.export-btn:hover,
+.theory-sub-btn:hover {
+  background-color: var(--input-bg);
+  border-color: var(--primary-color);
 }
 
 .badge {

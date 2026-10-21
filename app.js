@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initPWA();
   initBrandClick();
   loadLocalProject();
+  initScriptorAvatar();
 });
 
 /* ==========================================================================
@@ -57,7 +58,7 @@ function loadLocalProject() {
 }
 
 /* ==========================================================================
-   2. Alternância do Modo Claro/Escuro & Ação do Logótipo
+   2. Alternância do Modo Claro/Escuro, Avatares & Ação do Logótipo
    ========================================================================== */
 function initTheme() {
   const themeToggleBtn = document.getElementById('theme-toggle');
@@ -74,6 +75,37 @@ function initTheme() {
       localStorage.setItem('scriptor-theme', newTheme);
     });
   }
+}
+
+function setScriptorAvatar(gender) {
+  const imgElement = document.getElementById('welcome-illustration');
+  const btnM = document.getElementById('avatar-m-btn');
+  const btnF = document.getElementById('avatar-f-btn');
+
+  localStorage.setItem('scriptor-avatar', gender);
+
+  if (imgElement) {
+    imgElement.src = gender === 'f' ? 'ilustra-scriptor-f.svg' : 'ilustra-scriptor.svg';
+  }
+
+  if (btnM && btnF) {
+    if (gender === 'f') {
+      btnF.style.borderColor = 'var(--primary-color)';
+      btnF.style.color = 'var(--primary-color)';
+      btnM.style.borderColor = 'var(--border-color)';
+      btnM.style.color = 'var(--text-color)';
+    } else {
+      btnM.style.borderColor = 'var(--primary-color)';
+      btnM.style.color = 'var(--primary-color)';
+      btnF.style.borderColor = 'var(--border-color)';
+      btnF.style.color = 'var(--text-color)';
+    }
+  }
+}
+
+function initScriptorAvatar() {
+  const savedAvatar = localStorage.getItem('scriptor-avatar') || 'm';
+  setScriptorAvatar(savedAvatar);
 }
 
 function initBrandClick() {
@@ -95,8 +127,18 @@ function renderWelcomeView() {
       <div class="welcome-overlay">
         <h2>Bem-vindo ao Scriptor</h2>
         <p>Selecione uma opção no menu lateral para começar.</p>
+        
+        <!-- Alternador de Ilustração -->
+        <div class="avatar-toggle-container" style="margin-top: 14px; display: flex; gap: 8px; justify-content: center;">
+          <button id="avatar-m-btn" class="card-ctrl-btn" title="Ilustração Escritor" onclick="setScriptorAvatar('m')">
+            👨‍💻 Escritor
+          </button>
+          <button id="avatar-f-btn" class="card-ctrl-btn" title="Ilustração Escritora" onclick="setScriptorAvatar('f')">
+            👩‍💻 Escritora
+          </button>
+        </div>
       </div>
-      <img src="ilustra-scriptor.svg" alt="Ilustração de boas-vindas do Scriptor" class="welcome-illustration">
+      <img id="welcome-illustration" src="ilustra-scriptor.svg" alt="Ilustração de boas-vindas do Scriptor" class="welcome-illustration">
     </section>
   `;
 }
@@ -178,7 +220,6 @@ function initNewProjectEvents() {
         return;
       }
 
-      // Mantém todos os dados existentes e atualiza apenas o título
       projectState.title = inputVal;
 
       saveLocalProject();
@@ -194,7 +235,6 @@ function initNewProjectEvents() {
     });
   }
 
-  // A limpeza só acontece ao clicar explicitamente neste botão
   if (clearCacheBtn) {
     clearCacheBtn.addEventListener('click', () => {
       if (confirm('Tem a certeza de que deseja APAGAR TODOS OS DADOS do projeto e resetar a aplicação? Esta ação não pode ser desfeita.')) {
@@ -235,6 +275,7 @@ function navigateToRoute(route) {
 
   if (route === 'home') {
     mainView.outerHTML = renderWelcomeView();
+    initScriptorAvatar();
   } else if (route === 'new') {
     mainView.innerHTML = renderNewProjectView();
     initNewProjectEvents();
@@ -276,7 +317,7 @@ function navigateToRoute(route) {
       mainView.innerHTML = `
         <article class="theory-article">
           <h1>EDITOR DE RASCUNHO</h1>
-          <p>Certifique-se de que o arquivo editor.js está incluído no index.html.</p>
+          <p>Certifique-se de que o ficheiro editor.js está incluído no index.html.</p>
         </article>
       `;
     }
@@ -375,11 +416,11 @@ function importJsonProject() {
           
           navigateToRoute('phase1');
         } else {
-          alert('O arquivo JSON selecionado é inválido ou não possui o formato de projeto do Scriptor.');
+          alert('O ficheiro JSON selecionado é inválido ou não possui o formato de projeto do Scriptor.');
         }
       } catch (err) {
-        console.error('Erro ao ler arquivo JSON:', err);
-        alert('Erro ao abrir o arquivo. Certifique-se de que é um JSON válido.');
+        console.error('Erro ao ler ficheiro JSON:', err);
+        alert('Erro ao abrir o ficheiro. Certifique-se de que é um JSON válido.');
       }
     };
 
@@ -529,7 +570,7 @@ function exportProject(format) {
     if (typeof exportFullBookToDocx === 'function') {
       exportFullBookToDocx();
     } else {
-      alert('O arquivo de suporte export.js não foi carregado corretamente.');
+      alert('O ficheiro de suporte export.js não foi carregado corretamente.');
     }
   }
 }
@@ -544,13 +585,13 @@ function downloadFile(dataStr, fileName) {
 }
 
 /* ==========================================================================
-   7. Registro do Service Worker (PWA)
+   7. Registo do Service Worker (PWA)
    ========================================================================== */
 function initPWA() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('sw.js')
-        .then(reg => console.log('Service Worker registrado:', reg.scope))
+        .then(reg => console.log('Service Worker registado:', reg.scope))
         .catch(err => console.error('Erro no Service Worker:', err));
     });
   }

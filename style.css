@@ -203,8 +203,8 @@ body {
   display: none;
   list-style: none;
   flex-direction: column;
-  padding: 4px 0;
-  gap: 4px;
+  padding: 6px 0;
+  gap: 6px;
   align-items: center;
   width: 100%;
   background-color: var(--panel-bg);
@@ -215,34 +215,38 @@ body {
   display: flex;
 }
 
-/* Estilização Unificada para Botões de Segundo Nível (Exportação, Carregar e Teoria) */
+/* Estilização Unificada e Permanente para Botões de Segundo Nível (Exportação, Carregar e Teoria) */
 .export-btn,
+.sub-btn,
 .theory-sub-btn {
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  color: var(--primary-color);
+  background-color: var(--card-bg) !important; /* Força fundo cinza de cartão permanente */
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  color: var(--primary-color) !important;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  width: 40px;
-  height: 36px;
+  width: 42px;
+  height: 38px;
   padding: 6px;
 }
 
 .export-btn:hover,
+.sub-btn:hover,
 .theory-sub-btn:hover {
-  background-color: var(--input-bg);
-  border-color: var(--primary-color);
+  background-color: var(--input-bg) !important;
+  border-color: var(--primary-color) !important;
 }
 
-/* Garante proporção correta para os SVGs nos botões de teoria */
+/* Estilização dos ícones SVG dentro dos botões do submenu de Teoria */
+.sub-btn svg,
 .theory-sub-btn svg {
   width: 20px;
   height: 20px;
-  fill: var(--primary-color);
+  fill: var(--primary-color) !important;
+  color: var(--primary-color) !important;
 }
 
 .badge {
@@ -250,9 +254,8 @@ body {
   font-weight: 800;
   padding: 2px 4px;
   border-radius: 4px;
-  background-color: var(--input-bg);
+  background-color: transparent;
   color: var(--primary-color);
-  border: 1px solid var(--border-color);
 }
 
 .sidebar-footer {

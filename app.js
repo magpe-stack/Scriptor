@@ -17,7 +17,8 @@ let projectState = {
   phase5: [],
   sceneDrafts: {}, // Guardador individual dos rascunhos por id de cena
   currentWritingSceneId: null,
-  editorDraft: ""
+  editorDraft: "",
+  wordTarget: 50000
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -46,6 +47,9 @@ function loadLocalProject() {
       if (!projectState.sceneDrafts) {
         projectState.sceneDrafts = {};
       }
+      if (!projectState.wordTarget) {
+        projectState.wordTarget = 50000;
+      }
     } catch (e) {
       console.error('Erro ao carregar projeto local:', e);
     }
@@ -61,13 +65,15 @@ function initTheme() {
   
   document.documentElement.setAttribute('data-theme', savedTheme);
 
-  themeToggleBtn.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('scriptor-theme', newTheme);
-  });
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('scriptor-theme', newTheme);
+    });
+  }
 }
 
 function initBrandClick() {
@@ -498,7 +504,11 @@ function exportProject(format) {
     const dataStr = `data:${mime};charset=utf-8,` + encodeURIComponent(content);
     downloadFile(dataStr, `${filename}.${format}`);
   } else if (format === 'docx') {
-    alert('A exportação em DOCX será ativada com o preenchimento das fases.');
+    if (typeof exportFullBookToDocx === 'function') {
+      exportFullBookToDocx();
+    } else {
+      alert('O arquivo de suporte export.js não foi carregado corretamente.');
+    }
   }
 }
 

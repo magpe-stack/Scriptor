@@ -61,7 +61,7 @@ function loadLocalProject() {
    ========================================================================== */
 function initTheme() {
   const themeToggleBtn = document.getElementById('theme-toggle');
-  const savedTheme = localStorage.getItem('scriptor-theme') || 'dark';
+  const savedTheme = localStorage.getItem('scriptor-theme') || 'light';
   
   document.documentElement.setAttribute('data-theme', savedTheme);
 

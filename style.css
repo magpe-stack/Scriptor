@@ -12,8 +12,14 @@
   --primary-color: #257d0d;
   --primary-hover: #216d0b;
   --input-bg: #2a2a2a;
+  
+  /* Cor fixa de fundo cinza para os sub-botões de 2º nível */
+  --sub-btn-bg: #2d3035;
+  --sub-btn-border: #3f434a;
+  --sub-btn-hover: #383c42;
+
   --header-height: 60px;
-  --sidebar-width: 64px; /* Menu compacto para os ícones */
+  --sidebar-width: 64px;
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
@@ -29,6 +35,12 @@
   --primary-color: #257d0d;
   --primary-hover: #1e620a;
   --input-bg: #f0f2f5;
+
+  /* Cor fixa de fundo cinza para os sub-botões de 2º nível no modo claro */
+  --sub-btn-bg: #e8ecef;
+  --sub-btn-border: #d0d7de;
+  --sub-btn-hover: #dadfe3;
+
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
@@ -44,7 +56,7 @@ html, body {
   min-height: 100vh;
   width: 100%;
   overflow-x: hidden;
-  overflow-y: auto; /* Rolagem nativa e suave da área de conteúdo */
+  overflow-y: auto;
 }
 
 body {
@@ -104,7 +116,7 @@ body {
 .app-container {
   display: flex;
   flex-direction: row;
-  margin-top: var(--header-height); /* Compensa a altura do cabeçalho fixo */
+  margin-top: var(--header-height);
   min-height: calc(100vh - var(--header-height));
   width: 100%;
 }
@@ -126,12 +138,11 @@ body {
   bottom: 0;
   left: 0;
   z-index: 900;
-  overflow-y: auto; /* Ativa rolagem vertical quando os submenus expandem */
+  overflow-y: auto;
   overflow-x: hidden;
   align-items: center;
 }
 
-/* Barra de rolagem ultrafina (4px) e discreta para a sidebar */
 .sidebar::-webkit-scrollbar {
   width: 4px;
 }
@@ -166,6 +177,7 @@ body {
   position: relative;
 }
 
+/* Botões de Primeiro Nível (Transparentes) */
 .icon-btn {
   display: flex;
   align-items: center;
@@ -207,20 +219,21 @@ body {
   gap: 6px;
   align-items: center;
   width: 100%;
-  background-color: var(--panel-bg);
-  border-radius: 6px;
+  background-color: transparent;
 }
 
 .menu-item.open .submenu {
   display: flex;
 }
 
-/* Estilização Unificada e Permanente para Botões de Segundo Nível (Exportação, Carregar e Teoria) */
+/* ==========================================================================
+   BOTÕES DE SEGUNDO NÍVEL (Destaque em Fundo Cinza Diferenciado)
+   ========================================================================== */
 .export-btn,
 .sub-btn,
 .theory-sub-btn {
-  background-color: var(--card-bg) !important; /* Força fundo cinza de cartão permanente */
-  border: 1px solid var(--border-color) !important;
+  background-color: var(--sub-btn-bg) !important;  /* Fundo cinza permanente */
+  border: 1px solid var(--sub-btn-border) !important;
   border-radius: 8px !important;
   color: var(--primary-color) !important;
   cursor: pointer;
@@ -231,18 +244,20 @@ body {
   width: 42px;
   height: 38px;
   padding: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
 }
 
 .export-btn:hover,
 .sub-btn:hover,
 .theory-sub-btn:hover {
-  background-color: var(--input-bg) !important;
+  background-color: var(--sub-btn-hover) !important;
   border-color: var(--primary-color) !important;
 }
 
-/* Estilização dos ícones SVG dentro dos botões do submenu de Teoria */
+/* Ícones SVG dentro dos sub-botões */
 .sub-btn svg,
-.theory-sub-btn svg {
+.theory-sub-btn svg,
+.export-btn svg {
   width: 20px;
   height: 20px;
   fill: var(--primary-color) !important;
@@ -278,7 +293,7 @@ body {
    ========================================================================== */
 .main-content {
   flex: 1;
-  margin-left: var(--sidebar-width); /* Desloca o conteúdo para não cobrir a sidebar */
+  margin-left: var(--sidebar-width);
   padding: 32px 28px;
   width: calc(100% - var(--sidebar-width));
   background-color: var(--bg-color);
@@ -318,7 +333,7 @@ body {
 /* Estilização e Controle de Capas de Livros e Promoção */
 .theory-article img,
 .book-cover-img {
-  max-width: 220px; /* Impede que a capa fique gigante */
+  max-width: 220px;
   height: auto;
   border-radius: 8px;
   box-shadow: var(--shadow-md);

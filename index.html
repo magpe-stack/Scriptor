@@ -183,8 +183,18 @@
         <div class="welcome-overlay">
           <h2>Bem-vindo ao Scriptor</h2>
           <p>Selecione uma opção no menu lateral para começar.</p>
+          
+          <!-- Alternador de Ilustração -->
+          <div class="avatar-toggle-container" style="margin-top: 14px; display: flex; gap: 8px; justify-content: center;">
+            <button id="avatar-m-btn" class="card-ctrl-btn" title="Ilustração Escritor" onclick="setScriptorAvatar('m')">
+              👨‍💻 Escritor
+            </button>
+            <button id="avatar-f-btn" class="card-ctrl-btn" title="Ilustração Escritora" onclick="setScriptorAvatar('f')">
+              👩‍💻 Escritora
+            </button>
+          </div>
         </div>
-        <img src="ilustra-scriptor.svg" alt="Ilustração de boas-vindas do Scriptor" class="welcome-illustration">
+        <img id="welcome-illustration" src="ilustra-scriptor.svg" alt="Ilustração de boas-vindas do Scriptor" class="welcome-illustration">
       </section>
     </main>
 
